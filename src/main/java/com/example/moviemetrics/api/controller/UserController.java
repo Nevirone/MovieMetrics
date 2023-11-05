@@ -1,17 +1,16 @@
 package com.example.moviemetrics.api.controller;
+
+import com.example.moviemetrics.api.exception.UserEmailTakenException;
+import com.example.moviemetrics.api.exception.UserNotFoundException;
+import com.example.moviemetrics.api.model.User;
 import com.example.moviemetrics.api.request.UserRequest;
+import com.example.moviemetrics.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
-
-import com.example.moviemetrics.api.exception.UserEmailTakenException;
-import com.example.moviemetrics.api.exception.UserNotFoundException;
-
-import com.example.moviemetrics.api.model.User;
-
-import com.example.moviemetrics.api.service.UserService;
 
 @RestController
 @RequestMapping("/users")

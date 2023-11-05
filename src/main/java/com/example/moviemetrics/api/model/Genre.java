@@ -35,7 +35,8 @@ public class Genre {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public void setName(String name) { this.name = name; }
+
+    public void setMovies(Set<Movie> movies) { this.movies = movies; }
+    public Set<Movie> getMovies() { return movies; }
 }

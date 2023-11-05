@@ -2,19 +2,16 @@ package com.example.moviemetrics.api.request;
 
 import com.example.moviemetrics.api.model.User;
 
-public class UserRequest {
-
+public class RegisterRequest {
     private String email;
-
     private String username;
-
     private String password;
 
     public User getUser() {
         return new User(
-            this.email,
-            this.username,
-            this.password
+                this.email,
+                this.username,
+                this.password
         );
     }
 
@@ -26,13 +23,9 @@ public class UserRequest {
         this.email = email;
     }
 
-    public String getUsername() {
-        return username;
-    }
+    public String getUsername() { return username; }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+    public void setUsername(String username) { this.username = username; }
 
     public String getPassword() {
         return password;
