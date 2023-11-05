@@ -14,7 +14,7 @@ import java.util.Map;
 @Service
 public class JWTProvider {
     final static String secret = "my_secret_key_that_is_long_enough";
-    final static private int tokenExpirationTimeMs = 2 * 60 * 60 * 100;
+    final static private int tokenExpirationTimeMs = 2 * 60 * 60 * 1000; // 2h
 
 
     public static String generateToken(User user) {
@@ -42,15 +42,11 @@ public class JWTProvider {
     public static Claims parseToken(String token) {
         SecretKey key = Keys.hmacShaKeyFor(secret.getBytes());
 
-        Claims payload = Jwts.parser()
+        return Jwts.parser()
                 .verifyWith(key)
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
-
-        System.out.println(payload.getSubject());
-        System.out.println(payload.get("id"));
-        return payload;
     }
 
 
