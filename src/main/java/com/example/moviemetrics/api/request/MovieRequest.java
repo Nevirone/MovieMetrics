@@ -2,16 +2,31 @@ package com.example.moviemetrics.api.request;
 
 import com.example.moviemetrics.api.model.Genre;
 import com.example.moviemetrics.api.model.Movie;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.HashSet;
 import java.util.Set;
 
+@Getter @Setter
 public class MovieRequest {
+    @NotNull(message = "Title is required")
+    @Min(value = 5, message = "At least 5 characters")
     private String title;
+    @NotNull(message = "Description is required")
+    @Min(value =10, message = "At least 10 characters")
     private String description;
+    @NotNull(message = "Popularity is required")
     private double popularity;
+    @NotNull(message = "VoteAverage is required")
     private double voteAverage;
+
+    @NotNull(message = "VoteCount is required")
     private int voteCount;
+
+    @NotNull(message = "GenreIds is required")
     private Set<Long> genreIds;
 
     public Movie getMovie() {
@@ -20,55 +35,7 @@ public class MovieRequest {
                 this.description,
                 this.popularity,
                 this.voteAverage,
-                this.getVoteCount()
+                this.voteCount
         );
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public double getPopularity() {
-        return popularity;
-    }
-
-    public void setPopularity(double popularity) {
-        this.popularity = popularity;
-    }
-
-    public double getVoteAverage() {
-        return voteAverage;
-    }
-
-    public void setVoteAverage(double voteAverage) {
-        this.voteAverage = voteAverage;
-    }
-
-    public int getVoteCount() {
-        return voteCount;
-    }
-
-    public void setVoteCount(int voteCount) {
-        this.voteCount = voteCount;
-    }
-
-    public Set<Long> getGenreIds() {
-        return genreIds;
-    }
-
-    public void setGenreIds(Set<Long> genreIds) {
-        this.genreIds = genreIds;
     }
 }

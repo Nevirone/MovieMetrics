@@ -1,11 +1,12 @@
 package com.example.moviemetrics.api.controller;
 
-import com.example.moviemetrics.api.exception.UserNotFoundException;
+import com.example.moviemetrics.api.exception.NotFoundException;
 import com.example.moviemetrics.api.model.User;
 import com.example.moviemetrics.api.request.LoginRequest;
 import com.example.moviemetrics.api.request.RegisterRequest;
 import com.example.moviemetrics.api.util.JWTProvider;
 import com.example.moviemetrics.api.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +33,7 @@ public class AuthController {
         return passwordEncoder.matches(password, hashedPassword);
     }
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<?> loginUser(@Valid @RequestBody LoginRequest loginRequest) {
         try {
             User user = userService.getUserByEmail(loginRequest.getEmail());
 
@@ -42,13 +43,13 @@ public class AuthController {
 
             return ResponseEntity.status(HttpStatus.OK).body(JWTProvider.generateToken(user));
 
-        } catch (UserNotFoundException ex) {
+        } catch (NotFoundException ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email or password incorrect");
         }
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> loginUser(@RequestBody RegisterRequest registerRequest) {
+    public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterRequest registerRequest) {
         User user = registerRequest.getUser();
 
         User createdUser = userService.createUser(user);

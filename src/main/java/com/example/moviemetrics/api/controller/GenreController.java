@@ -1,13 +1,13 @@
 package com.example.moviemetrics.api.controller;
+import com.example.moviemetrics.api.exception.DataConflictException;
+import com.example.moviemetrics.api.exception.NotFoundException;
 import com.example.moviemetrics.api.request.GenreRequest;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-
-import com.example.moviemetrics.api.exception.GenreNameTakenException;
-import com.example.moviemetrics.api.exception.GenreNotFoundException;
 
 import com.example.moviemetrics.api.model.Genre;
 
@@ -24,11 +24,11 @@ public class GenreController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createGenre(@RequestBody Genre newGenre) {
+    public ResponseEntity<?> createGenre(@Valid @RequestBody Genre newGenre) {
         try {
             Genre createdGenre = genreService.createGenre(newGenre);
             return ResponseEntity.status(HttpStatus.CREATED).body(createdGenre);
-        } catch (GenreNameTakenException ex) {
+        } catch (DataConflictException ex) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
         }
     }
@@ -38,7 +38,7 @@ public class GenreController {
         try {
             Genre genre = genreService.getGenreById(id);
             return ResponseEntity.status(HttpStatus.OK).body(genre);
-        } catch(GenreNotFoundException ex) {
+        } catch(NotFoundException ex) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
         }
     }
@@ -51,16 +51,16 @@ public class GenreController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateGenre(@PathVariable Long id, @RequestBody GenreRequest genreRequest) {
+    public ResponseEntity<?> updateGenre(@PathVariable Long id, @Valid @RequestBody GenreRequest genreRequest) {
         Genre newGenre = genreRequest.getGenre();
         newGenre.setId(id);
 
         try {
             Genre updatedGenre = genreService.updateGenre(id, genreRequest.getGenre());
             return ResponseEntity.status(HttpStatus.OK).body(updatedGenre);
-        } catch (GenreNotFoundException ex) {
+        } catch (NotFoundException ex) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
-        } catch (GenreNameTakenException ex) {
+        } catch (DataConflictException ex) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
         }
     }
@@ -70,7 +70,7 @@ public class GenreController {
         try {
             Genre deletedGenre = genreService.deleteGenre(id);
             return ResponseEntity.status(HttpStatus.OK).body(deletedGenre);
-        } catch (GenreNotFoundException ex) {
+        } catch (NotFoundException ex) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
         }
     }

@@ -1,10 +1,11 @@
 package com.example.moviemetrics.api.controller;
 
-import com.example.moviemetrics.api.exception.UserEmailTakenException;
-import com.example.moviemetrics.api.exception.UserNotFoundException;
+import com.example.moviemetrics.api.exception.DataConflictException;
+import com.example.moviemetrics.api.exception.NotFoundException;
 import com.example.moviemetrics.api.model.User;
 import com.example.moviemetrics.api.request.UserRequest;
 import com.example.moviemetrics.api.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,11 +24,11 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createUser(@RequestBody UserRequest userRequest) {
+    public ResponseEntity<?> createUser(@Valid  @RequestBody UserRequest userRequest) {
         try {
             User createdUser = userService.createUser(userRequest.getUser());
             return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
-        } catch (UserEmailTakenException ex) {
+        } catch (DataConflictException ex) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
         }
     }
@@ -37,7 +38,7 @@ public class UserController {
         try {
             User user = userService.getUserById(id);
             return ResponseEntity.status(HttpStatus.OK).body(user);
-        } catch(UserNotFoundException ex) {
+        } catch(NotFoundException ex) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
         }
     }
@@ -50,16 +51,16 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody UserRequest userRequest) {
+    public ResponseEntity<?> updateUser(@PathVariable Long id, @Valid @RequestBody UserRequest userRequest) {
         User newUser = userRequest.getUser();
         newUser.setId(id);
 
         try {
             User updatedUser = userService.updateUser(id, newUser);
             return ResponseEntity.status(HttpStatus.OK).body(updatedUser);
-        } catch (UserNotFoundException ex) {
+        } catch (NotFoundException ex) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
-        } catch (UserEmailTakenException ex) {
+        } catch (DataConflictException ex) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
         }
     }
@@ -69,7 +70,7 @@ public class UserController {
         try {
             User deletedUser = userService.deleteUser(id);
             return ResponseEntity.status(HttpStatus.OK).body(deletedUser);
-        } catch (UserNotFoundException ex) {
+        } catch (NotFoundException ex) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
         }
     }

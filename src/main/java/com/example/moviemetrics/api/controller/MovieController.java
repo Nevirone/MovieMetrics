@@ -1,9 +1,9 @@
 package com.example.moviemetrics.api.controller;
-import com.example.moviemetrics.api.exception.GenreNameTakenException;
-import com.example.moviemetrics.api.exception.GenreNotFoundException;
+import com.example.moviemetrics.api.exception.*;
 import com.example.moviemetrics.api.model.Genre;
 import com.example.moviemetrics.api.request.MovieRequest;
 import com.example.moviemetrics.api.service.GenreService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,9 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import com.example.moviemetrics.api.exception.MovieNotFoundException;
-import com.example.moviemetrics.api.exception.MovieTitleTakenException;
 
 import com.example.moviemetrics.api.model.Movie;
 
@@ -33,14 +30,14 @@ public class MovieController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createMovie(@RequestBody MovieRequest movieRequest) {
+    public ResponseEntity<?> createMovie(@Valid @RequestBody MovieRequest movieRequest) {
         Movie newMovie = movieRequest.getMovie();
         newMovie.setGenresByIds(movieRequest.getGenreIds(), genreService);
 
         try {
             Movie createdMovie = movieService.createMovie(newMovie);
             return ResponseEntity.status(HttpStatus.CREATED).body(createdMovie);
-        } catch (MovieTitleTakenException ex) {
+        } catch (DataConflictException ex) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
         }
     }
@@ -50,7 +47,7 @@ public class MovieController {
         try {
             Movie movie = movieService.getMovieById(id);
             return ResponseEntity.status(HttpStatus.OK).body(movie);
-        } catch (MovieNotFoundException ex) {
+        } catch (NotFoundException ex) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
         }
     }
@@ -63,7 +60,7 @@ public class MovieController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateMovies(@PathVariable Long id, @RequestBody MovieRequest movieRequest) {
+    public ResponseEntity<?> updateMovies(@PathVariable Long id, @Valid @RequestBody MovieRequest movieRequest) {
         Movie newMovie = movieRequest.getMovie();
         newMovie.setId(id);
         newMovie.setGenresByIds(movieRequest.getGenreIds(), genreService);
@@ -71,9 +68,9 @@ public class MovieController {
         try {
             Movie updatedMovie = movieService.updateMovie(id, newMovie);
             return ResponseEntity.status(HttpStatus.OK).body(updatedMovie);
-        } catch (MovieNotFoundException ex) {
+        } catch (NotFoundException ex) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
-        } catch (MovieTitleTakenException ex) {
+        } catch (DataConflictException ex) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
         }
     }
@@ -83,7 +80,7 @@ public class MovieController {
         try {
             Movie deletedMovie = movieService.deleteMovie(id);
             return ResponseEntity.status(HttpStatus.OK).body(deletedMovie);
-        } catch (MovieNotFoundException ex) {
+        } catch (NotFoundException ex) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
         }
     }
