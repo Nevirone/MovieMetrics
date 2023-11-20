@@ -59,7 +59,7 @@ public class MovieController {
         return ResponseEntity.status(HttpStatus.OK).body(movies);
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<?> updateMovies(@PathVariable Long id, @Valid @RequestBody MovieRequest movieRequest) {
         Movie newMovie = movieRequest.getMovie();
         newMovie.setId(id);

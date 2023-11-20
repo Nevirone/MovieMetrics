@@ -4,9 +4,10 @@ import com.example.moviemetrics.api.model.User;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.validation.constraints.Size;
+import lombok.*;
 
+@NoArgsConstructor @AllArgsConstructor
 @Getter @Setter
 public class RegisterRequest {
     @NotBlank(message = "Email is required")
@@ -14,11 +15,11 @@ public class RegisterRequest {
     private String email;
 
     @NotBlank(message = "Username is required")
-    @Min(value = 5, message = "At least 5 characters")
+    @Size(min = 5, message = "At least 5 characters")
     private String username;
 
     @NotBlank(message = "Password is required")
-    @Min(value = 6, message = "At least 6 characters")
+    @Size(min=6, message = "At least 6 characters")
     private String password;
 
     public User getUser() {

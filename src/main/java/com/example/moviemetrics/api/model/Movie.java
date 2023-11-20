@@ -10,39 +10,43 @@ import java.util.Set;
 
 @Entity
 @Getter @Setter
-@NoArgsConstructor @RequiredArgsConstructor
 @Table(name = "movies")
 public class Movie {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Long id = null;
 
-    @NonNull
     private String title;
 
-    @NonNull
     private String description;
 
-    @NonNull
     private double popularity;
 
-    @NonNull
     @Column(name = "vote_average")
     private double voteAverage;
 
-    @NonNull
     @Column(name = "vote_count")
     private int voteCount;
 
     @NonNull
     @JsonManagedReference
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.REMOVE)
     @JoinTable(
             name = "movie_genres",
             joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id")
     )
     private Set<Genre> genres = new HashSet<>();
+
+    public Movie() {}
+
+    public Movie(String title, String description, double popularity, double voteAverage, int voteCount) {
+        this.title = title;
+        this.description = description;
+        this.popularity = popularity;
+        this.voteAverage = voteAverage;
+        this.voteCount = voteCount;
+    }
 
     public void setGenresByIds(Set<Long> genreIds, GenreService genreService) {
         if(genreIds == null) return;

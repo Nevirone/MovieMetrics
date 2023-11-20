@@ -1,6 +1,7 @@
 package com.example.moviemetrics.api.service;
 import com.example.moviemetrics.api.exception.DataConflictException;
 import com.example.moviemetrics.api.exception.NotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -53,6 +54,7 @@ public class GenreService {
         return genreRepository.save(genre);
     }
 
+    @Transactional
     public Genre deleteGenre(Long id) {
         Optional<Genre> genre = genreRepository.findById(id);
         if(genre.isEmpty()) {

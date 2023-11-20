@@ -14,13 +14,13 @@ import java.util.Set;
 @Table(name = "genres")
 public class Genre {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
     @NonNull
     private String name;
 
     @JsonBackReference
-    @ManyToMany(mappedBy = "genres")
+    @ManyToMany(mappedBy = "genres", cascade = CascadeType.REMOVE)
     private Set<Movie> movies = new HashSet<>();
 }

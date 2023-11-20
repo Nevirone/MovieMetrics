@@ -54,7 +54,7 @@ public class AuthController {
 
         User createdUser = userService.createUser(user);
 
-        return ResponseEntity.status(HttpStatus.OK).body(JWTProvider.generateToken(createdUser));
+        return ResponseEntity.status(HttpStatus.CREATED).body(JWTProvider.generateToken(createdUser));
     }
 
 

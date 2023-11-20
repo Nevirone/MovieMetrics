@@ -11,6 +11,6 @@ import java.util.Optional;
 
 @Repository
 public interface IGenreRepository extends JpaRepository<Genre, Long> {
-    @Query("SELECT g FROM Genre g WHERE g.name = :name")
+    @Query("SELECT g FROM Genre g WHERE LOWER(g.name) = LOWER(:name)")
     Optional<Genre> findByName(@Param("name") String name);
 }

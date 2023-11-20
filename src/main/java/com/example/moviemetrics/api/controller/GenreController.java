@@ -24,7 +24,8 @@ public class GenreController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createGenre(@Valid @RequestBody Genre newGenre) {
+    public ResponseEntity<?> createGenre(@Valid @RequestBody GenreRequest genreRequest) {
+        Genre newGenre = genreRequest.getGenre();
         try {
             Genre createdGenre = genreService.createGenre(newGenre);
             return ResponseEntity.status(HttpStatus.CREATED).body(createdGenre);
@@ -50,13 +51,13 @@ public class GenreController {
         return ResponseEntity.status(HttpStatus.OK).body(genres);
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<?> updateGenre(@PathVariable Long id, @Valid @RequestBody GenreRequest genreRequest) {
         Genre newGenre = genreRequest.getGenre();
         newGenre.setId(id);
 
         try {
-            Genre updatedGenre = genreService.updateGenre(id, genreRequest.getGenre());
+            Genre updatedGenre = genreService.updateGenre(id, newGenre);
             return ResponseEntity.status(HttpStatus.OK).body(updatedGenre);
         } catch (NotFoundException ex) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());

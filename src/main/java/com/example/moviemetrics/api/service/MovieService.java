@@ -1,6 +1,7 @@
 package com.example.moviemetrics.api.service;
 import com.example.moviemetrics.api.exception.DataConflictException;
 import com.example.moviemetrics.api.exception.NotFoundException;
+import jakarta.transaction.Transactional;
 import org.aspectj.weaver.ast.Not;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,6 +55,7 @@ public class MovieService {
         return movieRepository.save(movie);
     }
 
+    @Transactional
     public Movie deleteMovie(Long id) throws NotFoundException {
         Optional<Movie> movie = movieRepository.findById(id);
         if(movie.isEmpty()) {
