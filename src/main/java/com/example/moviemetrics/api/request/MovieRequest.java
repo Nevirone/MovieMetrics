@@ -1,8 +1,6 @@
 package com.example.moviemetrics.api.request;
 
-import com.example.moviemetrics.api.model.Genre;
 import com.example.moviemetrics.api.model.Movie;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -10,9 +8,10 @@ import lombok.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter @Setter
+@Builder
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor
 public class MovieRequest {
     @NotNull(message = "Title is required")
     @Size(min = 5, message = "At least 5 characters")
@@ -33,14 +32,4 @@ public class MovieRequest {
 
     @NotNull(message = "GenreIds is required")
     private Set<Long> genreIds;
-
-    public Movie getMovie() {
-        return new Movie(
-                this.title,
-                this.description,
-                this.popularity,
-                this.voteAverage,
-                this.voteCount
-        );
-    }
 }

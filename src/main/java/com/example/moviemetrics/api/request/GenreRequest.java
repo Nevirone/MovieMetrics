@@ -7,17 +7,12 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter @Setter
+@Builder
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor
 public class GenreRequest {
     @NotNull(message = "Name is required")
     @Size(min = 5, message = "At least 5 characters")
     private String name;
-
-    public Genre getGenre() {
-        return new Genre(
-                this.name
-        );
-    }
 }

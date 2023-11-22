@@ -10,14 +10,15 @@ import java.util.Set;
 
 @Entity
 @Getter @Setter
-@NoArgsConstructor @RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Builder
 @Table(name = "genres")
 public class Genre {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
-    @NonNull
     private String name;
 
     @JsonBackReference

@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -25,9 +26,8 @@ public class GenreController {
 
     @PostMapping
     public ResponseEntity<?> createGenre(@Valid @RequestBody GenreRequest genreRequest) {
-        Genre newGenre = genreRequest.getGenre();
         try {
-            Genre createdGenre = genreService.createGenre(newGenre);
+            Genre createdGenre = genreService.createGenre(genreRequest);
             return ResponseEntity.status(HttpStatus.CREATED).body(createdGenre);
         } catch (DataConflictException ex) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
@@ -52,12 +52,10 @@ public class GenreController {
     }
 
     @PatchMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> updateGenre(@PathVariable Long id, @Valid @RequestBody GenreRequest genreRequest) {
-        Genre newGenre = genreRequest.getGenre();
-        newGenre.setId(id);
-
         try {
-            Genre updatedGenre = genreService.updateGenre(id, newGenre);
+            Genre updatedGenre = genreService.updateGenre(id, genreRequest);
             return ResponseEntity.status(HttpStatus.OK).body(updatedGenre);
         } catch (NotFoundException ex) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
@@ -67,6 +65,7 @@ public class GenreController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> deleteGenre(@PathVariable Long id) {
         try {
             Genre deletedGenre = genreService.deleteGenre(id);

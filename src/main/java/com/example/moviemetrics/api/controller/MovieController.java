@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
@@ -21,21 +22,16 @@ import com.example.moviemetrics.api.service.MovieService;
 @RequestMapping("/movies")
 public class MovieController {
     private final MovieService movieService;
-    private final GenreService genreService;
 
     @Autowired
-    public MovieController(MovieService movieService, GenreService genreService) {
+    public MovieController(MovieService movieService) {
         this.movieService = movieService;
-        this.genreService = genreService;
     }
 
     @PostMapping
     public ResponseEntity<?> createMovie(@Valid @RequestBody MovieRequest movieRequest) {
-        Movie newMovie = movieRequest.getMovie();
-        newMovie.setGenresByIds(movieRequest.getGenreIds(), genreService);
-
         try {
-            Movie createdMovie = movieService.createMovie(newMovie);
+            Movie createdMovie = movieService.createMovie(movieRequest);
             return ResponseEntity.status(HttpStatus.CREATED).body(createdMovie);
         } catch (DataConflictException ex) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
@@ -60,13 +56,10 @@ public class MovieController {
     }
 
     @PatchMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> updateMovies(@PathVariable Long id, @Valid @RequestBody MovieRequest movieRequest) {
-        Movie newMovie = movieRequest.getMovie();
-        newMovie.setId(id);
-        newMovie.setGenresByIds(movieRequest.getGenreIds(), genreService);
-
         try {
-            Movie updatedMovie = movieService.updateMovie(id, newMovie);
+            Movie updatedMovie = movieService.updateMovie(id, movieRequest);
             return ResponseEntity.status(HttpStatus.OK).body(updatedMovie);
         } catch (NotFoundException ex) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
@@ -76,6 +69,7 @@ public class MovieController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> deleteMovie(@PathVariable Long id) {
         try {
             Movie deletedMovie = movieService.deleteMovie(id);
