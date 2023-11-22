@@ -1,6 +1,8 @@
 package com.example.moviemetrics.api.filters;
 
 import com.example.moviemetrics.api.service.JwtService;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,15 +32,23 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain)
             throws ServletException, IOException {
+        if (request.getServletPath().contains("/auth")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         final String jwt;
         final String userEmail;
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            filterChain.doFilter(request,response);
+            response.setStatus(401);
+            response.getWriter().write("Bad token");
             return;
         }
+
         jwt = authHeader.substring(7);
+
         try {
             userEmail = jwtService.extractUsername(jwt);
             if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
@@ -55,10 +65,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     SecurityContextHolder.getContext().setAuthentication(authToken);
                 }
             }
-        } catch (Exception ex) {
+        } catch (ExpiredJwtException ex) {
+            response.setStatus(401);
+            response.getWriter().write("Token expired");
+            return;
+        } catch (SignatureException ex) {
             response.setStatus(401);
             response.getWriter().write("Bad token");
+            return;
         }
-        // end chain
+        filterChain.doFilter(request,response);
     }
 }

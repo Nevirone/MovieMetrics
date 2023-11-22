@@ -52,7 +52,8 @@ public class UserService {
     }
 
     public User updateUser(Long id, UserRequest userRequest) {
-        if(userRepository.findById(id).isEmpty())
+        Optional<User> userFound = userRepository.findById(id);
+        if(userFound.isEmpty())
             throw new NotFoundException("User not found");
 
         Optional<User> emailExists = userRepository.findByEmail(userRequest.getEmail());
@@ -62,10 +63,10 @@ public class UserService {
 
         User user = User
                 .builder()
-                .id(id)
+                .id(userFound.get().getId())
                 .email(userRequest.getEmail())
                 .password(passwordEncoder.encode(userRequest.getPassword()))
-                .ERole(emailExists.get().getERole())
+                .ERole(userFound.get().getERole())
                 .build();
 
         return userRepository.save(user);

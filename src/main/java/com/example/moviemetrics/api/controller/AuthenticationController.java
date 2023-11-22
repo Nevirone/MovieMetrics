@@ -25,11 +25,6 @@ public class AuthenticationController {
         this.jwtService = jwtService;
     }
 
-    @PostMapping
-    public ResponseEntity<?> test() {
-        System.out.println("asd");
-        return ResponseEntity.ok().build();
-    }
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@Valid @RequestBody AuthenticationRequest authenticationRequest) {
         try {

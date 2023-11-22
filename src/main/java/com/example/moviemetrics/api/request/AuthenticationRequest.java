@@ -6,7 +6,7 @@ import lombok.*;
 
 @Getter @Setter
 @Builder
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor
 public class AuthenticationRequest {
 

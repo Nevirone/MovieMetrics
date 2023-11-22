@@ -26,7 +26,11 @@ public class IUserRepositoryTest {
         // given
         String email = "test@test.com";
 
-        User user = new User(email, "test", "test");
+        User user = User
+                .builder()
+                .email(email)
+                .password("password")
+                .build();
 
         userRepository.save(user);
 

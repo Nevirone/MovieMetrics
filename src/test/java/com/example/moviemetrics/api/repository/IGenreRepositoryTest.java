@@ -28,7 +28,10 @@ public class IGenreRepositoryTest {
     public void itShouldCheckGenreExistsByName() {
         // given
         String name = "Action";
-        Genre genre = new Genre(name);
+        Genre genre = Genre
+                .builder()
+                .name(name)
+                .build();
 
         genreRepository.save(genre);
 

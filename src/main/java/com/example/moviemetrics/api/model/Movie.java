@@ -31,7 +31,6 @@ public class Movie {
     @Column(name = "vote_count")
     private int voteCount;
 
-    @NonNull
     @JsonManagedReference
     @ManyToMany(cascade = CascadeType.REMOVE)
     @JoinTable(

@@ -4,6 +4,8 @@ import com.example.moviemetrics.api.exception.DataConflictException;
 import com.example.moviemetrics.api.exception.NotFoundException;
 import com.example.moviemetrics.api.model.User;
 import com.example.moviemetrics.api.repository.IUserRepository;
+import com.example.moviemetrics.api.request.UserRequest;
+import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,7 +18,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
-@ComponentScan(basePackages = "com.example.moviemetrics")
+@ComponentScan("com.example.moviemetrics.api")
 public class UserServiceTest {
 
     @Autowired
@@ -32,34 +34,41 @@ public class UserServiceTest {
     @Test
     @DisplayName("Create user should be created successfully")
     public void testCreateUser() {
-        // given
-        User user = new User("test@example.com", "password", "TestUser");
+        //
+        UserRequest userRequest = UserRequest
+                .builder()
+                .email("test@example.com")
+                .password("password")
+                .build();
 
         // when
         List<User> users = userService.getAllUsers();
 
         // then
-        User result = assertDoesNotThrow(() -> userService.createUser(user));
+        User result = assertDoesNotThrow(() -> userService.createUser(userRequest));
         List<User> usersAfterCreate = userService.getAllUsers();
 
         assertInstanceOf(User.class, result);
         assertEquals(users.size() + 1, usersAfterCreate.size());
-        assertEquals(user, result);
     }
 
     @Test
     @DisplayName("Create user when email is taken")
     public void testCreateUserWhenEmailTaken() {
         // given
-        User user = new User("test@example.com", "password", "TestUser");
+        UserRequest userRequest = UserRequest
+                .builder()
+                .email("test@example.com")
+                .password("password")
+                .build();
 
-        userService.createUser(user);
+        userService.createUser(userRequest);
 
         // when
         List<User> users = userService.getAllUsers();
 
         // then
-        assertThrows(DataConflictException.class, () -> userService.createUser(user));
+        assertThrows(DataConflictException.class, () -> userService.createUser(userRequest));
         List<User> usersAfterCreate = userService.getAllUsers();
 
         assertEquals(users.size(), usersAfterCreate.size());
@@ -70,9 +79,13 @@ public class UserServiceTest {
     public void testGetUserByEmailWhenUserExists() {
         // given
         String email = "test@example.com";
-        User user = new User(email, "password", "TestUser");
+        UserRequest userRequest = UserRequest
+                .builder()
+                .email(email)
+                .password("password")
+                .build();
 
-        userService.createUser(user);
+        userService.createUser(userRequest);
 
         // when
         User u = userService.getUserByEmail(email);
@@ -106,9 +119,13 @@ public class UserServiceTest {
     @DisplayName("Get all users when users exist")
     public void testGetAllUsersWhenUsersExist() {
         // given
-        User user = new User("test@example.com", "password", "TestUser");
+        UserRequest userRequest = UserRequest
+                .builder()
+                .email("test@example.com")
+                .password("password")
+                .build();
 
-        userService.createUser(user);
+        userService.createUser(userRequest);
 
         // when
         List<User> users = userService.getAllUsers();
@@ -133,9 +150,13 @@ public class UserServiceTest {
     @DisplayName("Delete user when user exists")
     public void testDeleteUserWhenExists() {
         // given
-        User user = new User("test@example.com", "password", "TestUser");
+        UserRequest userRequest = UserRequest
+                .builder()
+                .email("test@example.com")
+                .password("password")
+                .build();
 
-        userService.createUser(user);
+        userService.createUser(userRequest);
 
         // when
         List<User> users = userService.getAllUsers();
@@ -159,15 +180,19 @@ public class UserServiceTest {
     public void testUpdateUserWhenExists() {
         // given
         String newEmail = "updated@example.com";
-        User user = new User("test@example.com", "password", "TestUser");
+        UserRequest userRequest = UserRequest
+                .builder()
+                .email("test@example.com")
+                .password("password")
+                .build();
 
-        userService.createUser(user);
+        User user = userService.createUser(userRequest);
 
         // when
-        user.setEmail(newEmail);
+        userRequest.setEmail(newEmail);
 
         // then
-        User result = assertDoesNotThrow(() -> userService.updateUser(user.getId(), user));
+        User result = assertDoesNotThrow(() -> userService.updateUser(user.getId(), userRequest));
         assertInstanceOf(User.class, result);
         assertEquals(newEmail, result.getEmail());
     }

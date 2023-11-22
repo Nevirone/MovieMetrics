@@ -13,6 +13,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
@@ -35,12 +37,16 @@ public class AuthenticationService {
     }
 
     public User authenticate(AuthenticationRequest authenticationRequest) {
+        Optional<User> user = userRepository.findByEmail(authenticationRequest.getEmail());
+
+        if(user.isEmpty())
+            throw new NotFoundException("User not found");
+
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(),
                         authenticationRequest.getPassword()));
 
 
-        return userRepository.findByEmail(authenticationRequest.getEmail())
-                .orElseThrow(() -> new NotFoundException("User not found"));
+        return user.get();
     }
 }

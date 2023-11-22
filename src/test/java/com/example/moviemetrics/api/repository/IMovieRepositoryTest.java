@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import java.util.HashSet;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -26,10 +27,15 @@ public class IMovieRepositoryTest {
     public void itShouldCheckMovieExistsByTitle() {
         // given
         String title = "My favourite movie";
-        Movie movie = new Movie(
-                title,
-                "Some description",
-                2.1, 2.1, 20);
+        Movie movie = Movie
+                .builder()
+                    .title(title)
+                    .description("My description")
+                    .popularity(2.2)
+                    .voteAverage(2.2)
+                    .voteCount(22)
+                    .genres(new HashSet<>())
+                    .build();
 
         movieRepository.save(movie);
 
