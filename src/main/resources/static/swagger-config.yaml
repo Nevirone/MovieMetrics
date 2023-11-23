@@ -1,0 +1,425 @@
+openapi: 3.0.1
+info:
+  title: Movie Metrics API documentation
+  version: v0
+servers:
+  - url: http://localhost:8080
+paths:
+  /users:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - user-controller
+      operationId: getAllUsers
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+    post:
+      security:
+          - bearerAuth: []
+      tags:
+        - user-controller
+      operationId: createUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+  /movies:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - movie-controller
+      operationId: getAllMovies
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+    post:
+      security:
+        - bearerAuth: []
+      tags:
+        - movie-controller
+      operationId: createMovie
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MovieRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+  /genres:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - genre-controller
+      operationId: getAllGenres
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+    post:
+      security:
+        - bearerAuth: []
+      tags:
+        - genre-controller
+      operationId: createGenre
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenreRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+  /auth/register:
+    post:
+      tags:
+        - authentication-controller
+      operationId: registerUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+  /auth/login:
+    post:
+      tags:
+        - authentication-controller
+      operationId: loginUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthenticationRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+  /users/{id}:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - user-controller
+      operationId: getUserById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+    delete:
+      security:
+        - bearerAuth: []
+      tags:
+        - user-controller
+      operationId: deleteUser
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+    patch:
+      security:
+        - bearerAuth: []
+      tags:
+        - user-controller
+      operationId: updateUser
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+  /movies/{id}:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - movie-controller
+      operationId: getMovieById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+    delete:
+      security:
+        - bearerAuth: []
+      tags:
+        - movie-controller
+      operationId: deleteMovie
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+    patch:
+      security:
+        - bearerAuth: []
+      tags:
+        - movie-controller
+      operationId: updateMovies
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MovieRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+  /genres/{id}:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - genre-controller
+      operationId: getGenreById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+    delete:
+      security:
+        - bearerAuth: []
+      tags:
+        - genre-controller
+      operationId: deleteGenre
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+    patch:
+      security:
+        - bearerAuth: []
+      tags:
+        - genre-controller
+      operationId: updateGenre
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenreRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+components:
+  securitySchemes:
+    bearerAuth:            # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT  
+  schemas:
+    UserRequest:
+      required:
+        - email
+        - password
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          maxLength: 2147483647
+          minLength: 6
+          type: string
+    MovieRequest:
+      required:
+        - description
+        - genreIds
+        - popularity
+        - title
+        - voteAverage
+        - voteCount
+      type: object
+      properties:
+        title:
+          maxLength: 2147483647
+          minLength: 5
+          type: string
+        description:
+          maxLength: 2147483647
+          minLength: 10
+          type: string
+        popularity:
+          type: number
+          format: double
+        voteAverage:
+          type: number
+          format: double
+        voteCount:
+          type: integer
+          format: int32
+        genreIds:
+          uniqueItems: true
+          type: array
+          items:
+            type: integer
+            format: int64
+    GenreRequest:
+      required:
+        - name
+      type: object
+      properties:
+        name:
+          maxLength: 2147483647
+          minLength: 5
+          type: string
+    RegisterRequest:
+      required:
+        - email
+        - password
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          maxLength: 2147483647
+          minLength: 6
+          type: string
+    AuthenticationRequest:
+      required:
+        - email
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string

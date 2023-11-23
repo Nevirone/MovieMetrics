@@ -25,6 +25,7 @@ public class SecurityConfig {
     public
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .securityMatcher("/auth/*")
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req -> req.requestMatchers("/auth/*").permitAll().anyRequest().authenticated()
                 )
@@ -35,4 +36,18 @@ public class SecurityConfig {
         return http.build();
     }
 
+    @Bean
+    public
+    SecurityFilterChain securityFilterChainAdditional(HttpSecurity http) throws Exception {
+        http
+                .securityMatcher("/swagger*")
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(req -> req.requestMatchers("/swagger*").permitAll().anyRequest().authenticated()
+                )
+                .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
+                .authenticationProvider(authenticationProvider)
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+
+        return http.build();
+    }
 }
