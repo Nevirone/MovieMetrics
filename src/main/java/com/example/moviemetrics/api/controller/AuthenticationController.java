@@ -4,8 +4,8 @@ import com.example.moviemetrics.api.service.JwtService;
 import com.example.moviemetrics.api.exception.DataConflictException;
 import com.example.moviemetrics.api.exception.NotFoundException;
 import com.example.moviemetrics.api.model.User;
-import com.example.moviemetrics.api.request.AuthenticationRequest;
-import com.example.moviemetrics.api.request.RegisterRequest;
+import com.example.moviemetrics.api.DTO.AuthenticationDto;
+import com.example.moviemetrics.api.DTO.RegistrationDto;
 import com.example.moviemetrics.api.service.AuthenticationService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +26,9 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@Valid @RequestBody AuthenticationRequest authenticationRequest) {
+    public ResponseEntity<?> loginUser(@Valid @RequestBody AuthenticationDto authenticationDto) {
         try {
-            User user = authenticationService.authenticate(authenticationRequest);
+            User user = authenticationService.authenticate(authenticationDto);
             String token = jwtService.generateToken(user);
 
             return ResponseEntity.status(HttpStatus.OK).body(token);
@@ -38,9 +38,9 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterRequest registerRequest) {
+    public ResponseEntity<?> registerUser(@Valid @RequestBody RegistrationDto registrationDto) {
         try {
-            User user = authenticationService.register(registerRequest);
+            User user = authenticationService.register(registrationDto);
             String token = jwtService.generateToken(user);
 
             return ResponseEntity.status(HttpStatus.OK).body(token);

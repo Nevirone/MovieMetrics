@@ -4,7 +4,7 @@ import com.example.moviemetrics.api.exception.DataConflictException;
 import com.example.moviemetrics.api.exception.NotFoundException;
 import com.example.moviemetrics.api.model.Genre;
 import com.example.moviemetrics.api.repository.IGenreRepository;
-import com.example.moviemetrics.api.request.GenreRequest;
+import com.example.moviemetrics.api.DTO.GenreDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,7 +34,7 @@ public class GenreServiceTest {
     @DisplayName("Create genre should be created successfully")
     public void testCreateGenre() {
         // given
-        GenreRequest genreRequest = GenreRequest
+        GenreDto genreDto = GenreDto
                 .builder()
                 .name("Action")
                 .build();
@@ -43,7 +43,7 @@ public class GenreServiceTest {
         List<Genre> genres = genreService.getAllGenres();
 
         // then
-        Genre result = assertDoesNotThrow(() -> genreService.createGenre(genreRequest));
+        Genre result = assertDoesNotThrow(() -> genreService.createGenre(genreDto));
         List<Genre> genresAfterCreate = genreService.getAllGenres();
 
         assertInstanceOf(Genre.class, result);
@@ -54,18 +54,18 @@ public class GenreServiceTest {
     @DisplayName("Create genre when name is taken")
     public void testCreateGenreWhenNameTaken() {
         // given
-        GenreRequest genreRequest = GenreRequest
+        GenreDto genreDto = GenreDto
                 .builder()
                 .name("Action")
                 .build();
 
-        genreService.createGenre(genreRequest);
+        genreService.createGenre(genreDto);
 
         // when
         List<Genre> genres = genreService.getAllGenres();
 
         // then
-        assertThrows(DataConflictException.class, () -> genreService.createGenre(genreRequest));
+        assertThrows(DataConflictException.class, () -> genreService.createGenre(genreDto));
         List<Genre> genresAfterCreate = genreService.getAllGenres();
 
         assertEquals(genres.size(), genresAfterCreate.size());
@@ -76,12 +76,12 @@ public class GenreServiceTest {
     public void testGetGenreByNameWhenGenreExists() {
         // given
         String name = "Action";
-        GenreRequest genreRequest = GenreRequest
+        GenreDto genreDto = GenreDto
                 .builder()
                 .name(name)
                 .build();
 
-        genreService.createGenre(genreRequest);
+        genreService.createGenre(genreDto);
 
         // when
         Genre g = genreService.getGenreByName(name);
@@ -115,12 +115,12 @@ public class GenreServiceTest {
     @DisplayName("Get all genres when genres exist")
     public void testGetAllGenresWhenGenresExist() {
         // given
-        GenreRequest genreRequest = GenreRequest
+        GenreDto genreDto = GenreDto
                 .builder()
                 .name("Action")
                 .build();
 
-        genreService.createGenre(genreRequest);
+        genreService.createGenre(genreDto);
 
         // when
         List<Genre> genres = genreService.getAllGenres();
@@ -145,12 +145,12 @@ public class GenreServiceTest {
     @DisplayName("Delete genre when genre exists")
     public void testDeleteGenreWhenExists() {
         // given
-        GenreRequest genreRequest = GenreRequest
+        GenreDto genreDto = GenreDto
                 .builder()
                 .name("Action")
                 .build();
 
-        genreService.createGenre(genreRequest);
+        genreService.createGenre(genreDto);
 
         // when
         List<Genre> genres = genreService.getAllGenres();
@@ -174,18 +174,18 @@ public class GenreServiceTest {
     public void testUpdateGenreWhenExists() {
         // given
         String newName = "Updated Action";
-        GenreRequest genreRequest = GenreRequest
+        GenreDto genreDto = GenreDto
                 .builder()
                 .name("Action")
                 .build();
 
-        Genre genre = genreService.createGenre(genreRequest);
+        Genre genre = genreService.createGenre(genreDto);
 
         // when
-        genreRequest.setName(newName);
+        genreDto.setName(newName);
 
         // then
-        Genre result = assertDoesNotThrow(() -> genreService.updateGenre(genre.getId(), genreRequest));
+        Genre result = assertDoesNotThrow(() -> genreService.updateGenre(genre.getId(), genreDto));
         assertInstanceOf(Genre.class, result);
         assertEquals(newName, result.getName());
     }

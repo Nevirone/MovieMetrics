@@ -1,8 +1,5 @@
-package com.example.moviemetrics.api.request;
+package com.example.moviemetrics.api.DTO;
 
-import com.example.moviemetrics.api.model.Genre;
-import com.example.moviemetrics.api.model.Movie;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -11,7 +8,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor
-public class GenreRequest {
+public class GenreDto {
     @NotNull(message = "Name is required")
     @Size(min = 5, message = "At least 5 characters")
     private String name;

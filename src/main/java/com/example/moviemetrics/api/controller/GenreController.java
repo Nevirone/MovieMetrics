@@ -1,7 +1,7 @@
 package com.example.moviemetrics.api.controller;
 import com.example.moviemetrics.api.exception.DataConflictException;
 import com.example.moviemetrics.api.exception.NotFoundException;
-import com.example.moviemetrics.api.request.GenreRequest;
+import com.example.moviemetrics.api.DTO.GenreDto;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,9 +25,9 @@ public class GenreController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createGenre(@Valid @RequestBody GenreRequest genreRequest) {
+    public ResponseEntity<?> createGenre(@Valid @RequestBody GenreDto genreDto) {
         try {
-            Genre createdGenre = genreService.createGenre(genreRequest);
+            Genre createdGenre = genreService.createGenre(genreDto);
             return ResponseEntity.status(HttpStatus.CREATED).body(createdGenre);
         } catch (DataConflictException ex) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
@@ -53,9 +53,9 @@ public class GenreController {
 
     @PatchMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<?> updateGenre(@PathVariable Long id, @Valid @RequestBody GenreRequest genreRequest) {
+    public ResponseEntity<?> updateGenre(@PathVariable Long id, @Valid @RequestBody GenreDto genreDto) {
         try {
-            Genre updatedGenre = genreService.updateGenre(id, genreRequest);
+            Genre updatedGenre = genreService.updateGenre(id, genreDto);
             return ResponseEntity.status(HttpStatus.OK).body(updatedGenre);
         } catch (NotFoundException ex) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());

@@ -5,8 +5,8 @@ import com.example.moviemetrics.api.exception.NotFoundException;
 import com.example.moviemetrics.api.model.ERole;
 import com.example.moviemetrics.api.model.User;
 import com.example.moviemetrics.api.repository.IUserRepository;
-import com.example.moviemetrics.api.request.AuthenticationRequest;
-import com.example.moviemetrics.api.request.RegisterRequest;
+import com.example.moviemetrics.api.DTO.AuthenticationDto;
+import com.example.moviemetrics.api.DTO.RegistrationDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,29 +22,29 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
 
-    public User register(RegisterRequest registerRequest) {
-        if(userRepository.findByEmail(registerRequest.getEmail()).isPresent())
+    public User register(RegistrationDto registrationDto) {
+        if(userRepository.findByEmail(registrationDto.getEmail()).isPresent())
             throw new DataConflictException("User email taken");
 
         User user = User
                 .builder()
-                .email(registerRequest.getEmail())
-                .password(passwordEncoder.encode(registerRequest.getPassword()))
+                .email(registrationDto.getEmail())
+                .password(passwordEncoder.encode(registrationDto.getPassword()))
                 .ERole(ERole.USER)
                 .build();
 
         return userRepository.save(user);
     }
 
-    public User authenticate(AuthenticationRequest authenticationRequest) {
-        Optional<User> user = userRepository.findByEmail(authenticationRequest.getEmail());
+    public User authenticate(AuthenticationDto authenticationDto) {
+        Optional<User> user = userRepository.findByEmail(authenticationDto.getEmail());
 
         if(user.isEmpty())
             throw new NotFoundException("User not found");
 
         authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(),
-                        authenticationRequest.getPassword()));
+                new UsernamePasswordAuthenticationToken(authenticationDto.getEmail(),
+                        authenticationDto.getPassword()));
 
 
         return user.get();

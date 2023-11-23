@@ -1,18 +1,17 @@
 package com.example.moviemetrics.api.service;
+import com.example.moviemetrics.api.DTO.GenreDto;
 import com.example.moviemetrics.api.exception.DataConflictException;
 import com.example.moviemetrics.api.exception.NotFoundException;
-import com.example.moviemetrics.api.request.MovieRequest;
+import com.example.moviemetrics.api.DTO.MovieDto;
+import com.example.moviemetrics.api.model.Genre;
 import jakarta.transaction.Transactional;
-import org.aspectj.weaver.ast.Not;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+
+import java.util.*;
 
 import com.example.moviemetrics.api.model.Movie;
 
-import com.example.moviemetrics.api.repository.IGenreRepository;
 import com.example.moviemetrics.api.repository.IMovieRepository;
 
 @Service
@@ -26,22 +25,49 @@ public class MovieService {
         this.genreService = genreService;
     }
 
-    public Movie createMovie(MovieRequest movieRequest) throws DataConflictException {
-        if (movieRepository.findByTitle(movieRequest.getTitle()).isPresent())
+    private Movie getMovieFromMovieDto(MovieDto movieDto) {
+        Set<Genre> genres = new HashSet<>();
+
+        for(String genreName : movieDto.getGenres()) {
+            Genre genre;
+            try {
+                genre = genreService.getGenreByName(genreName);
+            } catch (NotFoundException ex) {
+                GenreDto dto = GenreDto.builder().name(genreName).build();
+                genre = genreService.createGenre(dto);
+            }
+            genres.add(genre);
+        }
+
+        return Movie
+                .builder()
+                .title(movieDto.getTitle())
+                .description(movieDto.getDescription())
+                .genres(genres)
+                .popularity(movieDto.getPopularity())
+                .voteAverage(movieDto.getVoteAverage())
+                .voteCount(movieDto.getVoteCount())
+                .build();
+    }
+    public Movie createMovie(MovieDto movieDto) throws DataConflictException {
+        if (movieRepository.findByTitle(movieDto.getTitle()).isPresent())
             throw new DataConflictException("Movie title taken");
 
-        Movie movie = Movie
-                .builder()
-                .title(movieRequest.getTitle())
-                .description(movieRequest.getDescription())
-                .popularity(movieRequest.getPopularity())
-                .voteAverage(movieRequest.getVoteAverage())
-                .voteCount(movieRequest.getVoteCount())
-                .build();
+        return movieRepository.save(getMovieFromMovieDto(movieDto));
+    }
 
-        movie.setGenresByIds(movieRequest.getGenreIds(), genreService);
+    public List<Movie> createMovies(List<MovieDto> movieDtoList) throws DataConflictException {
+        List<Movie> movies = new ArrayList<>();
 
-        return movieRepository.save(movie);
+        System.out.println("Loading movies:");
+        for(MovieDto movieDto : movieDtoList)
+            try {
+                movies.add(createMovie(movieDto));
+            } catch (DataConflictException ex) {
+                System.out.println("Title exists: " + movieDto.getTitle());
+            }
+
+        return movies;
     }
 
     public Movie getMovieById(Long id) throws NotFoundException {
@@ -55,26 +81,16 @@ public class MovieService {
         return movieRepository.findAll();
     }
 
-    public Movie updateMovie(Long id, MovieRequest movieRequest) throws NotFoundException, DataConflictException{
+    public Movie updateMovie(Long id, MovieDto movieDto) throws NotFoundException, DataConflictException{
         if(movieRepository.findById(id).isEmpty())
             throw new NotFoundException("Movie not found");
 
-
-        Optional<Movie> titleExists = movieRepository.findByTitle(movieRequest.getTitle());
+        Optional<Movie> titleExists = movieRepository.findByTitle(movieDto.getTitle());
         if (titleExists.isPresent() && !Objects.equals(titleExists.get().getId(), id))
             throw new DataConflictException("Movie title taken");
 
-        Movie movie = Movie
-                .builder()
-                .id(id)
-                .title(movieRequest.getTitle())
-                .description(movieRequest.getDescription())
-                .popularity(movieRequest.getPopularity())
-                .voteAverage(movieRequest.getVoteAverage())
-                .voteCount(movieRequest.getVoteCount())
-                .build();
-
-        movie.setGenresByIds(movieRequest.getGenreIds(), genreService);
+        Movie movie = getMovieFromMovieDto(movieDto);
+        movie.setId(id);
 
         return movieRepository.save(movie);
     }

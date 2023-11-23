@@ -2,11 +2,9 @@ package com.example.moviemetrics.api.service;
 
 import com.example.moviemetrics.api.exception.DataConflictException;
 import com.example.moviemetrics.api.exception.NotFoundException;
-import com.example.moviemetrics.api.model.Genre;
 import com.example.moviemetrics.api.model.Movie;
 import com.example.moviemetrics.api.repository.IMovieRepository;
-import com.example.moviemetrics.api.request.MovieRequest;
-import com.example.moviemetrics.api.service.MovieService;
+import com.example.moviemetrics.api.DTO.MovieDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -37,7 +35,7 @@ public class MovieServiceTest {
     @DisplayName("Create when should be created successfully")
     public void testCreateMovie() {
         // given
-        MovieRequest movieRequest = MovieRequest
+        MovieDto movieDto = MovieDto
                 .builder()
                 .title("New Title")
                 .description("New Description")
@@ -51,7 +49,7 @@ public class MovieServiceTest {
         List<Movie> movies = movieService.getAllMovies();
 
         // then
-        Movie result = assertDoesNotThrow(() -> movieService.createMovie(movieRequest));
+        Movie result = assertDoesNotThrow(() -> movieService.createMovie(movieDto));
         List<Movie> moviesAfterCreate = movieService.getAllMovies();
 
         assertInstanceOf(Movie.class, result);
@@ -62,7 +60,7 @@ public class MovieServiceTest {
     @DisplayName("Create when title is taken")
     public void testCreateMovieWhenTitleTaken() {
         // given
-        MovieRequest movieRequest = MovieRequest
+        MovieDto movieDto = MovieDto
                 .builder()
                 .title("New Title")
                 .description("New Description")
@@ -72,13 +70,13 @@ public class MovieServiceTest {
                 .genreIds(new HashSet<>())
                 .build();
 
-        movieService.createMovie(movieRequest);
+        movieService.createMovie(movieDto);
 
         // when
         List<Movie> movies = movieService.getAllMovies();
 
         // then
-        assertThrows(DataConflictException.class, () -> movieService.createMovie(movieRequest));
+        assertThrows(DataConflictException.class, () -> movieService.createMovie(movieDto));
         List<Movie> moviesAfterCreate = movieService.getAllMovies();
 
         assertEquals(movies.size(), moviesAfterCreate.size());
@@ -89,7 +87,7 @@ public class MovieServiceTest {
     public void testGetMovieByTitleWhenMovieExists() {
         // given
         String title = "New Title";
-        MovieRequest movieRequest = MovieRequest
+        MovieDto movieDto = MovieDto
                 .builder()
                 .title(title)
                 .description("New Description")
@@ -99,7 +97,7 @@ public class MovieServiceTest {
                 .genreIds(new HashSet<>())
                 .build();
 
-        movieService.createMovie(movieRequest);
+        movieService.createMovie(movieDto);
 
         // when
         Movie m = movieService.getMovieByTitle(title);
@@ -133,7 +131,7 @@ public class MovieServiceTest {
     @DisplayName("Get all movies when movies exist")
     public void testGetAllMoviesWhenMoviesExist() {
         // given
-        MovieRequest movieRequest = MovieRequest
+        MovieDto movieDto = MovieDto
                 .builder()
                 .title("New Title")
                 .description("New Description")
@@ -143,7 +141,7 @@ public class MovieServiceTest {
                 .genreIds(new HashSet<>())
                 .build();
 
-        movieService.createMovie(movieRequest);
+        movieService.createMovie(movieDto);
 
         // when
         List<Movie> movies = movieService.getAllMovies();
@@ -168,7 +166,7 @@ public class MovieServiceTest {
     @DisplayName("Delete movie when movie exists")
     public void testDeleteMovieWhenExists() {
         // given
-        MovieRequest movieRequest = MovieRequest
+        MovieDto movieDto = MovieDto
                 .builder()
                 .title("New Title")
                 .description("New Description")
@@ -178,7 +176,7 @@ public class MovieServiceTest {
                 .genreIds(new HashSet<>())
                 .build();
 
-        movieService.createMovie(movieRequest);
+        movieService.createMovie(movieDto);
 
         // when
         List<Movie> movies = movieService.getAllMovies();
@@ -203,7 +201,7 @@ public class MovieServiceTest {
     public void testPatchMovieWhenExists() {
         // given
         String newTitle = "My changed title";
-        MovieRequest movieRequest = MovieRequest
+        MovieDto movieDto = MovieDto
                 .builder()
                 .title("New Title")
                 .description("New Description")
@@ -213,13 +211,13 @@ public class MovieServiceTest {
                 .genreIds(new HashSet<>())
                 .build();
 
-        Movie movie = movieService.createMovie(movieRequest);
+        Movie movie = movieService.createMovie(movieDto);
 
         // when
-        movieRequest.setTitle(newTitle);
+        movieDto.setTitle(newTitle);
 
         // then
-        Movie result = assertDoesNotThrow(() -> movieService.updateMovie(movie.getId(), movieRequest));
+        Movie result = assertDoesNotThrow(() -> movieService.updateMovie(movie.getId(), movieDto));
         assertInstanceOf(Movie.class, result);
         assertEquals(newTitle, result.getTitle());
     }

@@ -1,12 +1,16 @@
 package com.example.moviemetrics.api.service;
+import com.example.moviemetrics.api.DTO.MovieDto;
 import com.example.moviemetrics.api.exception.DataConflictException;
 import com.example.moviemetrics.api.exception.NotFoundException;
 import com.example.moviemetrics.api.model.ERole;
-import com.example.moviemetrics.api.request.UserRequest;
+import com.example.moviemetrics.api.DTO.UserDto;
+import com.example.moviemetrics.api.model.Movie;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -26,18 +30,32 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User createUser(UserRequest userRequest) {
-        if(userRepository.findByEmail(userRequest.getEmail()).isPresent())
+    public User createUser(UserDto userDto) {
+        if(userRepository.findByEmail(userDto.getEmail()).isPresent())
             throw new DataConflictException("User email taken");
 
         User user = User
                 .builder()
-                .email(userRequest.getEmail())
-                .password(passwordEncoder.encode(userRequest.getPassword()))
-                .ERole(ERole.USER)
+                .email(userDto.getEmail())
+                .password(userDto.isPasswordEncrypted()? userDto.getPassword() : passwordEncoder.encode(userDto.getPassword()))
+                .ERole(userDto.isAdmin()? ERole.ADMIN : ERole.USER)
                 .build();
 
         return userRepository.save(user);
+    }
+
+    public List<User> createUsers(List<UserDto> userDtoList) throws DataConflictException {
+        List<User> users = new ArrayList<>();
+
+        System.out.println("Loading users:");
+        for(UserDto userDto : userDtoList)
+            try {
+                users.add(createUser(userDto));
+            } catch (DataConflictException ex) {
+                System.out.println("Email exists: " + userDto.getEmail());
+            }
+
+        return users;
     }
 
     public User getUserById(Long id) {
@@ -51,12 +69,12 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public User updateUser(Long id, UserRequest userRequest) {
+    public User updateUser(Long id, UserDto userDto) {
         Optional<User> userFound = userRepository.findById(id);
         if(userFound.isEmpty())
             throw new NotFoundException("User not found");
 
-        Optional<User> emailExists = userRepository.findByEmail(userRequest.getEmail());
+        Optional<User> emailExists = userRepository.findByEmail(userDto.getEmail());
 
         if (emailExists.isPresent() && !Objects.equals(emailExists.get().getId(), id))
             throw new DataConflictException("User email taken");
@@ -64,9 +82,9 @@ public class UserService {
         User user = User
                 .builder()
                 .id(userFound.get().getId())
-                .email(userRequest.getEmail())
-                .password(passwordEncoder.encode(userRequest.getPassword()))
-                .ERole(userFound.get().getERole())
+                .email(userDto.getEmail())
+                .password(userDto.isPasswordEncrypted()? userDto.getPassword() : passwordEncoder.encode(userDto.getPassword()))
+                .ERole(userDto.isAdmin()? ERole.ADMIN : ERole.USER)
                 .build();
 
         return userRepository.save(user);
