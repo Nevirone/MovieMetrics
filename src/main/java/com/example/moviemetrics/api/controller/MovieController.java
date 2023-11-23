@@ -1,8 +1,6 @@
 package com.example.moviemetrics.api.controller;
 import com.example.moviemetrics.api.exception.*;
-import com.example.moviemetrics.api.model.Genre;
-import com.example.moviemetrics.api.request.MovieRequest;
-import com.example.moviemetrics.api.service.GenreService;
+import com.example.moviemetrics.api.DTO.MovieDto;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,9 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import com.example.moviemetrics.api.model.Movie;
 
@@ -29,9 +25,9 @@ public class MovieController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createMovie(@Valid @RequestBody MovieRequest movieRequest) {
+    public ResponseEntity<?> createMovie(@Valid @RequestBody MovieDto movieDto) {
         try {
-            Movie createdMovie = movieService.createMovie(movieRequest);
+            Movie createdMovie = movieService.createMovie(movieDto);
             return ResponseEntity.status(HttpStatus.CREATED).body(createdMovie);
         } catch (DataConflictException ex) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
@@ -57,9 +53,9 @@ public class MovieController {
 
     @PatchMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<?> updateMovies(@PathVariable Long id, @Valid @RequestBody MovieRequest movieRequest) {
+    public ResponseEntity<?> updateMovies(@PathVariable Long id, @Valid @RequestBody MovieDto movieDto) {
         try {
-            Movie updatedMovie = movieService.updateMovie(id, movieRequest);
+            Movie updatedMovie = movieService.updateMovie(id, movieDto);
             return ResponseEntity.status(HttpStatus.OK).body(updatedMovie);
         } catch (NotFoundException ex) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());

@@ -2,12 +2,10 @@ package com.example.moviemetrics.api.controllers;
 
 import com.example.moviemetrics.MovieMetricsApplication;
 import com.example.moviemetrics.api.model.ERole;
-import com.example.moviemetrics.api.model.Genre;
 import com.example.moviemetrics.api.model.User;
 import com.example.moviemetrics.api.repository.IUserRepository;
-import com.example.moviemetrics.api.request.AuthenticationRequest;
-import com.example.moviemetrics.api.request.GenreRequest;
-import com.example.moviemetrics.api.request.RegisterRequest;
+import com.example.moviemetrics.api.DTO.AuthenticationDto;
+import com.example.moviemetrics.api.DTO.GenreDto;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,9 +40,9 @@ public class GenreControllerTest {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    TestRestTemplate restTemplate = new TestRestTemplate();
-    HttpHeaders userHeaders = new HttpHeaders();
-    HttpHeaders adminHeaders = new HttpHeaders();
+    final TestRestTemplate restTemplate = new TestRestTemplate();
+    final HttpHeaders userHeaders = new HttpHeaders();
+    final HttpHeaders adminHeaders = new HttpHeaders();
 
     private String getURL(String uri) {
         return "http://localhost:" + port + uri;
@@ -75,13 +73,13 @@ public class GenreControllerTest {
         userRepository.save(user);
         userRepository.save(admin);
 
-        AuthenticationRequest authenticationRequest = AuthenticationRequest
+        AuthenticationDto authenticationDto = AuthenticationDto
                 .builder()
                 .email(email)
                 .password(password)
                 .build();
 
-        HttpEntity<AuthenticationRequest> authenticationEntity = new HttpEntity<>(authenticationRequest, userHeaders);
+        HttpEntity<AuthenticationDto> authenticationEntity = new HttpEntity<>(authenticationDto, userHeaders);
 
         ResponseEntity<String> authenticationResponse = restTemplate.exchange(
                 getURL("/auth/login"),
@@ -90,13 +88,13 @@ public class GenreControllerTest {
         if(authenticationResponse.getStatusCode().value() != 200) throw new Exception("User failed to be logged in");
         else userHeaders.setBearerAuth(Objects.requireNonNull(authenticationResponse.getBody()));
 
-        authenticationRequest = AuthenticationRequest
+        authenticationDto = AuthenticationDto
                 .builder()
                 .email(adminEmail)
                 .password(adminPassword)
                 .build();
 
-        authenticationEntity = new HttpEntity<>(authenticationRequest, adminHeaders);
+        authenticationEntity = new HttpEntity<>(authenticationDto, adminHeaders);
 
         authenticationResponse = restTemplate.exchange(
                 getURL("/auth/login"),
@@ -110,19 +108,19 @@ public class GenreControllerTest {
     @Order(1)
     @DisplayName("Create Genre: Successful")
     public void testPostGenre() {
-        GenreRequest genreRequest = GenreRequest
+        GenreDto genreDto = GenreDto
                 .builder()
                 .name("Action")
                 .build();
 
-        HttpEntity<GenreRequest> entity = new HttpEntity<>(genreRequest, userHeaders);
+        HttpEntity<GenreDto> entity = new HttpEntity<>(genreDto, userHeaders);
 
         ResponseEntity<String> response = restTemplate.exchange(
                 getURL("/genres"),
                 HttpMethod.POST, entity, String.class);
 
-        genreRequest.setName("Drama");
-        entity = new HttpEntity<>(genreRequest, userHeaders);
+        genreDto.setName("Drama");
+        entity = new HttpEntity<>(genreDto, userHeaders);
 
         restTemplate.exchange(
                 getURL("/genres"),
@@ -138,12 +136,12 @@ public class GenreControllerTest {
     @Order(2)
     @DisplayName("Create Genre: Duplicate Name Conflict")
     public void testPostGenreTakenName() {
-        GenreRequest genreRequest = GenreRequest
+        GenreDto genreDto = GenreDto
                 .builder()
                 .name("Action")
                 .build();
 
-        HttpEntity<GenreRequest> entity = new HttpEntity<>(genreRequest, userHeaders);
+        HttpEntity<GenreDto> entity = new HttpEntity<>(genreDto, userHeaders);
 
         ResponseEntity<String> response = restTemplate.exchange(
                 getURL("/genres"),
@@ -158,12 +156,12 @@ public class GenreControllerTest {
     @Order(3)
     @DisplayName("Create Genre: Invalid Name Format")
     public void testPostGenreBadName() {
-        GenreRequest genreRequest = GenreRequest
+        GenreDto genreDto = GenreDto
                 .builder()
                 .name("xx")
                 .build();
 
-        HttpEntity<GenreRequest> entity = new HttpEntity<>(genreRequest, userHeaders);
+        HttpEntity<GenreDto> entity = new HttpEntity<>(genreDto, userHeaders);
 
         ResponseEntity<String> response = restTemplate.exchange(
                 getURL("/genres"),
@@ -178,12 +176,12 @@ public class GenreControllerTest {
     @Order(4)
     @DisplayName("Update Genre: Successful")
     public void testPatchGenre() {
-        GenreRequest genreRequest = GenreRequest
+        GenreDto genreDto = GenreDto
                 .builder()
                 .name("Comedy")
                 .build();
 
-        HttpEntity<GenreRequest> entity = new HttpEntity<>(genreRequest, adminHeaders);
+        HttpEntity<GenreDto> entity = new HttpEntity<>(genreDto, adminHeaders);
 
         ResponseEntity<String> response = restTemplate.exchange(
                 getURL("/genres/1"),
@@ -199,12 +197,12 @@ public class GenreControllerTest {
     @Order(5)
     @DisplayName("Update Genre: No permission")
     public void testPatchGenreNoPermission() {
-        GenreRequest genreRequest = GenreRequest
+        GenreDto genreDto = GenreDto
                 .builder()
                 .name("Comedy")
                 .build();
 
-        HttpEntity<GenreRequest> entity = new HttpEntity<>(genreRequest, userHeaders);
+        HttpEntity<GenreDto> entity = new HttpEntity<>(genreDto, userHeaders);
 
         ResponseEntity<String> response = restTemplate.exchange(
                 getURL("/genres/1"),
@@ -220,12 +218,12 @@ public class GenreControllerTest {
     @Order(6)
     @DisplayName("Update Genre: Duplicate Name Conflict")
     public void testPatchGenreTakenName() {
-        GenreRequest genreRequest = GenreRequest
+        GenreDto genreDto = GenreDto
                 .builder()
                 .name("Comedy")
                 .build();
 
-        HttpEntity<GenreRequest> entity = new HttpEntity<>(genreRequest, adminHeaders);
+        HttpEntity<GenreDto> entity = new HttpEntity<>(genreDto, adminHeaders);
 
         ResponseEntity<String> response = restTemplate.exchange(
                 getURL("/genres/2"),
@@ -240,12 +238,12 @@ public class GenreControllerTest {
     @Order(7)
     @DisplayName("Update Genre: Not Found")
     public void testPatchGenreWrongId() {
-        GenreRequest genreRequest = GenreRequest
+        GenreDto genreDto = GenreDto
                 .builder()
                 .name("Thriller")
                 .build();
 
-        HttpEntity<GenreRequest> entity = new HttpEntity<>(genreRequest, adminHeaders);
+        HttpEntity<GenreDto> entity = new HttpEntity<>(genreDto, adminHeaders);
 
         ResponseEntity<String> response = restTemplate.exchange(
                 getURL("/genres/12"),

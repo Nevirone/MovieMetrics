@@ -32,7 +32,7 @@ public class Movie {
     private int voteCount;
 
     @JsonManagedReference
-    @ManyToMany(cascade = CascadeType.REMOVE)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "movie_genres",
             joinColumns = @JoinColumn(name = "movie_id"),

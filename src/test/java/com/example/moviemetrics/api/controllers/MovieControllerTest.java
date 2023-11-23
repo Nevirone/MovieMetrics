@@ -6,11 +6,8 @@ import com.example.moviemetrics.api.model.Genre;
 import com.example.moviemetrics.api.model.User;
 import com.example.moviemetrics.api.repository.IGenreRepository;
 import com.example.moviemetrics.api.repository.IUserRepository;
-import com.example.moviemetrics.api.request.AuthenticationRequest;
-import com.example.moviemetrics.api.request.MovieRequest;
-import com.example.moviemetrics.api.request.RegisterRequest;
-import com.example.moviemetrics.api.request.UserRequest;
-import com.example.moviemetrics.api.service.UserService;
+import com.example.moviemetrics.api.DTO.AuthenticationDto;
+import com.example.moviemetrics.api.DTO.MovieDto;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,9 +47,9 @@ public class MovieControllerTest {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    TestRestTemplate restTemplate = new TestRestTemplate();
-    HttpHeaders userHeaders = new HttpHeaders();
-    HttpHeaders adminHeaders = new HttpHeaders();
+    final TestRestTemplate restTemplate = new TestRestTemplate();
+    final HttpHeaders userHeaders = new HttpHeaders();
+    final HttpHeaders adminHeaders = new HttpHeaders();
 
     private String getURL(String uri) {
         return "http://localhost:" + port + uri;
@@ -84,13 +81,13 @@ public class MovieControllerTest {
         userRepository.save(user);
         userRepository.save(admin);
 
-        AuthenticationRequest authenticationRequest = AuthenticationRequest
+        AuthenticationDto authenticationDto = AuthenticationDto
                 .builder()
                 .email(email)
                 .password(password)
                 .build();
 
-        HttpEntity<AuthenticationRequest> authenticationEntity = new HttpEntity<>(authenticationRequest, userHeaders);
+        HttpEntity<AuthenticationDto> authenticationEntity = new HttpEntity<>(authenticationDto, userHeaders);
 
         ResponseEntity<String> authenticationResponse = restTemplate.exchange(
                 getURL("/auth/login"),
@@ -99,13 +96,13 @@ public class MovieControllerTest {
         if(authenticationResponse.getStatusCode().value() != 200) throw new Exception("User failed to be logged in");
         else userHeaders.setBearerAuth(Objects.requireNonNull(authenticationResponse.getBody()));
 
-        authenticationRequest = AuthenticationRequest
+        authenticationDto = AuthenticationDto
                 .builder()
                 .email(adminEmail)
                 .password(adminPassword)
                 .build();
 
-        authenticationEntity = new HttpEntity<>(authenticationRequest, adminHeaders);
+        authenticationEntity = new HttpEntity<>(authenticationDto, adminHeaders);
 
         authenticationResponse = restTemplate.exchange(
                 getURL("/auth/login"),
@@ -125,7 +122,7 @@ public class MovieControllerTest {
     @DisplayName("Create Movie: Successful")
     public void testPostMovie() {
         List<Long> genres = Arrays.asList(4L, 1L);
-        MovieRequest movieRequest = MovieRequest
+        MovieDto movieDto = MovieDto
                 .builder()
                 .title("Inception")
                 .description("A mind-bending heist movie")
@@ -135,7 +132,7 @@ public class MovieControllerTest {
                 .genreIds(new HashSet<>(genres))
                 .build();
 
-        HttpEntity<MovieRequest> entity = new HttpEntity<>(movieRequest, userHeaders);
+        HttpEntity<MovieDto> entity = new HttpEntity<>(movieDto, userHeaders);
 
         ResponseEntity<String> response = restTemplate.exchange(
                 getURL("/movies"),
@@ -143,7 +140,7 @@ public class MovieControllerTest {
 
 
         genres = Arrays.asList(4L, 1L);
-        movieRequest = MovieRequest
+        movieDto = MovieDto
                 .builder()
                 .title("The Shawshank Redemption")
                 .description("Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.")
@@ -153,7 +150,7 @@ public class MovieControllerTest {
                 .genreIds(new HashSet<>(genres))
                 .build();
 
-        entity = new HttpEntity<>(movieRequest, userHeaders);
+        entity = new HttpEntity<>(movieDto, userHeaders);
 
         restTemplate.exchange(
                 getURL("/movies"),
@@ -170,7 +167,7 @@ public class MovieControllerTest {
     @DisplayName("Create Movie: Duplicate Title Conflict")
     public void testPostMovieTakenTitle() {
         List<Long> genres = Arrays.asList(4L, 1L);
-        MovieRequest movieRequest = MovieRequest
+        MovieDto movieDto = MovieDto
                 .builder()
                 .title("Inception")
                 .description("A mind-bending heist movie")
@@ -180,7 +177,7 @@ public class MovieControllerTest {
                 .genreIds(new HashSet<>(genres))
                 .build();
 
-        HttpEntity<MovieRequest> entity = new HttpEntity<>(movieRequest, userHeaders);
+        HttpEntity<MovieDto> entity = new HttpEntity<>(movieDto, userHeaders);
 
         ResponseEntity<String> response = restTemplate.exchange(
                 getURL("/movies"),
@@ -196,7 +193,7 @@ public class MovieControllerTest {
     @DisplayName("Create Movie: Invalid Title Format")
     public void testPostMovieBadTitle() {
         List<Long> genres = Arrays.asList(4L, 1L);
-        MovieRequest movieRequest = MovieRequest
+        MovieDto movieDto = MovieDto
                 .builder()
                 .title("Ux")
                 .description("A mind-bending heist movie")
@@ -206,7 +203,7 @@ public class MovieControllerTest {
                 .genreIds(new HashSet<>(genres))
                 .build();
 
-        HttpEntity<MovieRequest> entity = new HttpEntity<>(movieRequest, userHeaders);
+        HttpEntity<MovieDto> entity = new HttpEntity<>(movieDto, userHeaders);
 
         ResponseEntity<String> response = restTemplate.exchange(
                 getURL("/movies"),
@@ -222,7 +219,7 @@ public class MovieControllerTest {
     @DisplayName("Update Movie: Successful")
     public void testPatchMovie() {
         List<Long> genres = Arrays.asList(4L, 1L);
-        MovieRequest movieRequest = MovieRequest
+        MovieDto movieDto = MovieDto
                 .builder()
                 .title("Inception")
                 .description("A mind-bending heist movie")
@@ -232,7 +229,7 @@ public class MovieControllerTest {
                 .genreIds(new HashSet<>(genres))
                 .build();
 
-        HttpEntity<MovieRequest> entity = new HttpEntity<>(movieRequest, adminHeaders);
+        HttpEntity<MovieDto> entity = new HttpEntity<>(movieDto, adminHeaders);
 
         ResponseEntity<String> response = restTemplate.exchange(
                 getURL("/movies/1"),
@@ -248,7 +245,7 @@ public class MovieControllerTest {
     @DisplayName("Update Movie: No permission")
     public void testPatchMovieNoPermission() {
         List<Long> genres = Arrays.asList(4L, 1L);
-        MovieRequest movieRequest = MovieRequest
+        MovieDto movieDto = MovieDto
                 .builder()
                 .title("Inception")
                 .description("A mind-bending heist movie")
@@ -258,7 +255,7 @@ public class MovieControllerTest {
                 .genreIds(new HashSet<>(genres))
                 .build();
 
-        HttpEntity<MovieRequest> entity = new HttpEntity<>(movieRequest, userHeaders);
+        HttpEntity<MovieDto> entity = new HttpEntity<>(movieDto, userHeaders);
 
         ResponseEntity<String> response = restTemplate.exchange(
                 getURL("/movies/1"),
@@ -274,7 +271,7 @@ public class MovieControllerTest {
     @DisplayName("Update Movie: Duplicate Title Conflict")
     public void testPatchMovieTakenTitle() {
         List<Long> genres = Arrays.asList(4L, 1L);
-        MovieRequest movieRequest = MovieRequest
+        MovieDto movieDto = MovieDto
                 .builder()
                 .title("The Shawshank Redemption")
                 .description("A mind-bending heist movie")
@@ -284,7 +281,7 @@ public class MovieControllerTest {
                 .genreIds(new HashSet<>(genres))
                 .build();
 
-        HttpEntity<MovieRequest> entity = new HttpEntity<>(movieRequest, adminHeaders);
+        HttpEntity<MovieDto> entity = new HttpEntity<>(movieDto, adminHeaders);
 
         ResponseEntity<String> response = restTemplate.exchange(
                 getURL("/movies/1"),
@@ -300,7 +297,7 @@ public class MovieControllerTest {
     @DisplayName("Update Movie: Not Found")
     public void testPatchMovieNotFound() {
         List<Long> genres = Arrays.asList(4L, 1L);
-        MovieRequest movieRequest = MovieRequest
+        MovieDto movieDto = MovieDto
                 .builder()
                 .title("The Skunk Redemption")
                 .description("A mind-bending heist movie")
@@ -310,7 +307,7 @@ public class MovieControllerTest {
                 .genreIds(new HashSet<>(genres))
                 .build();
 
-        HttpEntity<MovieRequest> entity = new HttpEntity<>(movieRequest, adminHeaders);
+        HttpEntity<MovieDto> entity = new HttpEntity<>(movieDto, adminHeaders);
 
         ResponseEntity<String> response = restTemplate.exchange(
                 getURL("/movies/12"),
