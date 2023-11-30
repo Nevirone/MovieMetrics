@@ -1,0 +1,2143 @@
+{
+	"info": {
+		"_postman_id": "492ac050-4660-41cb-a74b-ba4d3b41ca93",
+		"name": "Movie Metrics",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31364811"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Register",
+					"item": [
+						{
+							"name": "Register user K.Nowak",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.text();\r",
+											"\r",
+											"if (responseBody) {\r",
+											"    pm.collectionVariables.set('token', responseBody);\r",
+											"    console.log('Token successfully extracted:', responseBody);\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"kamil.nowak@gmail.com\",\r\n    \"password\": \"Knowak\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080{{route}}",
+									"host": [
+										"localhost"
+									],
+									"port": "8080{{route}}"
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Register user A.Nowak",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.text();\r",
+											"\r",
+											"if (responseBody) {\r",
+											"    pm.collectionVariables.set('token', responseBody);\r",
+											"    console.log('Token successfully extracted:', responseBody);\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"adam.nowak@gmail.com\",\r\n    \"password\": \"Anowak\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080{{route}}",
+									"host": [
+										"localhost"
+									],
+									"port": "8080{{route}}"
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Register user  D.Kowalski",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.text();\r",
+											"\r",
+											"if (responseBody) {\r",
+											"    pm.collectionVariables.set('token', responseBody);\r",
+											"    console.log('Token successfully extracted:', responseBody);\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"dariusz.kowalski@gmail.com\",\r\n    \"password\": \"Dkowalski\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080{{route}}",
+									"host": [
+										"localhost"
+									],
+									"port": "8080{{route}}"
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Register user P.Kowal",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.text();\r",
+											"\r",
+											"if (responseBody) {\r",
+											"    pm.collectionVariables.set('token', responseBody);\r",
+											"    console.log('Token successfully extracted:', responseBody);\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"piotr.kowal@gmail.com\",\r\n    \"password\": \"Pkowal\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080{{route}}",
+									"host": [
+										"localhost"
+									],
+									"port": "8080{{route}}"
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.collectionVariables.set(\"route\", \"/auth/register\")"
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Login",
+					"item": [
+						{
+							"name": "Login user K.Nowak",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.text();\r",
+											"\r",
+											"if (responseBody) {\r",
+											"    pm.collectionVariables.set('token', responseBody);\r",
+											"    console.log('Token successfully extracted:', responseBody);\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"kamil.nowak@gmail.com\",\r\n    \"password\": \"Knowak\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080{{route}}",
+									"host": [
+										"localhost"
+									],
+									"port": "8080{{route}}"
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login user A.Nowak",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.text();\r",
+											"\r",
+											"if (responseBody) {\r",
+											"    pm.collectionVariables.set('token', responseBody);\r",
+											"    console.log('Token successfully extracted:', responseBody);\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"adam.nowak@gmail.com\",\r\n    \"password\": \"Anowak\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080{{route}}",
+									"host": [
+										"localhost"
+									],
+									"port": "8080{{route}}"
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login user  D.Kowalski",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.text();\r",
+											"\r",
+											"if (responseBody) {\r",
+											"    pm.collectionVariables.set('token', responseBody);\r",
+											"    console.log('Token successfully extracted:', responseBody);\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"dariusz.kowalski@gmail.com\",\r\n    \"password\": \"Dkowalski\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080{{route}}",
+									"host": [
+										"localhost"
+									],
+									"port": "8080{{route}}"
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login user P.Kowal",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseBody = pm.response.text();\r",
+											"\r",
+											"if (responseBody) {\r",
+											"    pm.collectionVariables.set('token', responseBody);\r",
+											"    console.log('Token successfully extracted:', responseBody);\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"piotr.kowal@gmail.com\",\r\n    \"password\": \"Pkowal\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080{{route}}",
+									"host": [
+										"localhost"
+									],
+									"port": "8080{{route}}"
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.collectionVariables.set(\"route\", \"/auth/login\")"
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Authenticated Requests",
+			"item": [
+				{
+					"name": "Movies",
+					"item": [
+						{
+							"name": "Get",
+							"item": [
+								{
+									"name": "All movies",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "localhost:8080{{route}}",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}"
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Movie #1",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "localhost:8080{{route}}/1",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}",
+											"path": [
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Movie #2",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "localhost:8080{{route}}/2",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}",
+											"path": [
+												"2"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Movie #3",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "localhost:8080{{route}}/3",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}",
+											"path": [
+												"3"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Movie #4",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "localhost:8080{{route}}/4",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}",
+											"path": [
+												"4"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Post",
+							"item": [
+								{
+									"name": "Add movie Titanic",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"title\": \"Titanic\",\r\n    \"description\": \"A romantic drama film about the ill-fated maiden voyage of the R.M.S. Titanic, which struck an iceberg and sank on its maiden voyage.\",\r\n    \"genres\": [\"Romance\", \"Drama\"],\r\n    \"popularity\": 87.5,\r\n    \"voteAverage\": 8.5,\r\n    \"voteCount\": 12000\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080{{route}}",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}"
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Add movie Green Mile",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"title\": \"The Green Mile\",\r\n    \"description\": \"A supernatural drama film about a death row corrections officer who discovers that an inmate possesses a miraculous healing power.\",\r\n    \"genres\": [\"Drama\", \"Fantasy\"],\r\n    \"popularity\": 79.2,\r\n    \"voteAverage\": 8.9,\r\n    \"voteCount\": 10500\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080{{route}}",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}"
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Add movie Avengers: Civil War",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"title\": \"Avengers: Civil War\",\r\n    \"description\": \"A superhero film depicting the internal conflict among the Avengers as they disagree over government oversight and accountability.\",\r\n    \"genres\": [\"Action\", \"Adventure\", \"Sci-Fi\"],\r\n    \"popularity\": 92.5,\r\n    \"voteAverage\": 9.1,\r\n    \"voteCount\": 15000\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080{{route}}",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}"
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Add movie Rambo",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"title\": \"Rambo\",\r\n    \"description\": \"An action film following the iconic character John Rambo as he embarks on a mission to rescue hostages in a war-torn region.\",\r\n    \"genres\": [\"Action\", \"Thriller\"],\r\n    \"popularity\": 74.8,\r\n    \"voteAverage\": 7.8,\r\n    \"voteCount\": 8500\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080{{route}}",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}"
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Add movie Eerie Shadows",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"title\": \"Eerie Shadows\",\r\n    \"description\": \"A chilling horror film set in a haunted mansion, where unsuspecting individuals must confront their deepest fears as malevolent forces from the supernatural realm come to life.\",\r\n    \"genres\": [\"Horror\", \"Mystery\"],\r\n    \"popularity\": 79.4,\r\n    \"voteAverage\": 7.7,\r\n    \"voteCount\": 8100\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080{{route}}",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}"
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Add movie Laugh out Loud",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"title\": \"Laugh Out Loud\",\r\n    \"description\": \"A comedy film that follows the hilarious misadventures of a group of friends on a road trip to a comedy festival, bringing laughter and unexpected twists.\",\r\n    \"genres\": [\"Comedy\"],\r\n    \"popularity\": 85.7,\r\n    \"voteAverage\": 8.0,\r\n    \"voteCount\": 9200\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080{{route}}",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}"
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Patch",
+							"item": [
+								{
+									"name": "Patch movie #1",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"title\": \"Laugh Out Loud\",\r\n    \"description\": \"A comedy film that follows the hilarious misadventures of a group of friends on a road trip to a comedy festival, bringing laughter and unexpected twists.\",\r\n    \"genres\": [\"Comedy\"],\r\n    \"popularity\": 85.7,\r\n    \"voteAverage\": 8.0,\r\n    \"voteCount\": 9200\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080{{route}}/1",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}",
+											"path": [
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Patch movie #2",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"title\": \"Titanic\",\r\n    \"description\": \"A romantic drama film about the ill-fated maiden voyage of the R.M.S. Titanic, which struck an iceberg and sank on its maiden voyage.\",\r\n    \"genres\": [\"Romance\", \"Drama\"],\r\n    \"popularity\": 87.5,\r\n    \"voteAverage\": 8.5,\r\n    \"voteCount\": 12000\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080{{route}}/2",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}",
+											"path": [
+												"2"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Patch movie #3",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"title\": \"The Green Mile\",\r\n    \"description\": \"A supernatural drama film about a death row corrections officer who discovers that an inmate possesses a miraculous healing power.\",\r\n    \"genres\": [\"Drama\", \"Fantasy\"],\r\n    \"popularity\": 79.2,\r\n    \"voteAverage\": 8.9,\r\n    \"voteCount\": 10500\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080{{route}}/3",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}",
+											"path": [
+												"3"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Patch movie #4",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"title\": \"Avengers: Civil War\",\r\n    \"description\": \"A superhero film depicting the internal conflict among the Avengers as they disagree over government oversight and accountability.\",\r\n    \"genres\": [\"Action\", \"Adventure\", \"Sci-Fi\"],\r\n    \"popularity\": 92.5,\r\n    \"voteAverage\": 9.1,\r\n    \"voteCount\": 15000\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080{{route}}/4",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}",
+											"path": [
+												"4"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Patch movie #5",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"title\": \"Rambo\",\r\n    \"description\": \"An action film following the iconic character John Rambo as he embarks on a mission to rescue hostages in a war-torn region.\",\r\n    \"genres\": [\"Action\", \"Thriller\"],\r\n    \"popularity\": 74.8,\r\n    \"voteAverage\": 7.8,\r\n    \"voteCount\": 8500\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080{{route}}/5",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}",
+											"path": [
+												"5"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Patch movie #6",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"title\": \"Eerie Shadows\",\r\n    \"description\": \"A chilling horror film set in a haunted mansion, where unsuspecting individuals must confront their deepest fears as malevolent forces from the supernatural realm come to life.\",\r\n    \"genres\": [\"Horror\", \"Mystery\"],\r\n    \"popularity\": 79.4,\r\n    \"voteAverage\": 7.7,\r\n    \"voteCount\": 8100\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080{{route}}/6",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}",
+											"path": [
+												"6"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Delete",
+							"item": [
+								{
+									"name": "Movie #1",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "localhost:8080{{route}}/1",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}",
+											"path": [
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Movie #2",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "localhost:8080{{route}}/2",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}",
+											"path": [
+												"2"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Movie #3",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "localhost:8080{{route}}/3",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}",
+											"path": [
+												"3"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Movie #4",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "localhost:8080{{route}}/4",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}",
+											"path": [
+												"4"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.collectionVariables.set(\"route\", \"/movies\")"
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Genres",
+					"item": [
+						{
+							"name": "Get",
+							"item": [
+								{
+									"name": "All genres",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "localhost:8080{{route}}",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}"
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Genre #1",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "localhost:8080{{route}}/1",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}",
+											"path": [
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Genre #2",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "localhost:8080{{route}}/2",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}",
+											"path": [
+												"2"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Genre #3",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "localhost:8080{{route}}/3",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}",
+											"path": [
+												"3"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Genre #4",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "localhost:8080{{route}}/4",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}",
+											"path": [
+												"4"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Patch",
+							"item": [
+								{
+									"name": "Patch genre #1",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": \"Comedy\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080{{route}}/1",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}",
+											"path": [
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Patch genre #2",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": \"Horror\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080{{route}}/2",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}",
+											"path": [
+												"2"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Patch genre #3",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": \"Thriller\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080{{route}}/3",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}",
+											"path": [
+												"3"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Patch genre #4",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": \"Drama\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080{{route}}/4",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}",
+											"path": [
+												"4"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Patch genre #5",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": \"Romance\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080{{route}}/5",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}",
+											"path": [
+												"5"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Patch genre #6",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": \"Action\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080{{route}}/6",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}",
+											"path": [
+												"6"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Delete",
+							"item": [
+								{
+									"name": "Genre #1",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "localhost:8080{{route}}/1",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}",
+											"path": [
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Genre #2",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "localhost:8080{{route}}/2",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}",
+											"path": [
+												"2"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Genre #3",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "localhost:8080{{route}}/3",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}",
+											"path": [
+												"3"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Genre #4",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "localhost:8080{{route}}/4",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}",
+											"path": [
+												"4"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Post",
+							"item": [
+								{
+									"name": "Add genre Action",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": \"Action\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080{{route}}",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}"
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Add genre Comedy",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": \"Comedy\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080{{route}}",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}"
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Add genre Horror",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": \"Horror\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080{{route}}",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}"
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Add genre Thriller",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": \"Thriller\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080{{route}}",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}"
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Add genre Drama",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": \"Drama\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080{{route}}",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}"
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Add genre Romance",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": \"Romance\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080{{route}}",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}"
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.collectionVariables.set(\"route\", \"/genres\")"
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Users",
+					"item": [
+						{
+							"name": "Get",
+							"item": [
+								{
+									"name": "All users",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "localhost:8080{{route}}",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}"
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Users #1",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "localhost:8080{{route}}/1",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}",
+											"path": [
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Users #2",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "localhost:8080{{route}}/2",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}",
+											"path": [
+												"2"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Users #3",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "localhost:8080{{route}}/3",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}",
+											"path": [
+												"3"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Users #4",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "localhost:8080{{route}}/4",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}",
+											"path": [
+												"4"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Patch",
+							"item": [
+								{
+									"name": "Patch user #1",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"email\": \"kamil.nowak@gmail.com\",\r\n    \"password\": \"Knowak\",\r\n    \"isPasswordEncrypted\": \"false\",\r\n    \"isAdmin\" : true\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080{{route}}/1",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}",
+											"path": [
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Patch user #2",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"email\": \"adam.nowak@gmail.com\",\r\n    \"password\": \"Anowacki\",\r\n    \"isPasswordEncrypted\": \"false\",\r\n    \"isAdmin\" : false\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080{{route}}/2",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}",
+											"path": [
+												"2"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Patch user #3",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"email\": \"d.kowalski@gmail.com\",\r\n    \"password\": \"Dkowalski\",\r\n    \"isPasswordEncrypted\": \"false\",\r\n    \"isAdmin\" : false\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080{{route}}/3",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}",
+											"path": [
+												"3"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Patch user #4",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"email\": \"piotr.kowal@gmail.com\",\r\n    \"password\": \"Pkowal\",\r\n    \"isPasswordEncrypted\": \"false\",\r\n    \"isAdmin\" : true\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080{{route}}/4",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}",
+											"path": [
+												"4"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Delete",
+							"item": [
+								{
+									"name": "Users #1",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "localhost:8080{{route}}/1",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}",
+											"path": [
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Users #2",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "localhost:8080{{route}}/2",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}",
+											"path": [
+												"2"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Users #3",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "localhost:8080{{route}}/3",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}",
+											"path": [
+												"3"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Users #4",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "localhost:8080{{route}}/4",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}",
+											"path": [
+												"4"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Post",
+							"item": [
+								{
+									"name": "Add user K.Nowak",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"email\": \"kamil.nowak@gmail.com\",\r\n    \"password\": \"Knowak\",\r\n    \"isPasswordEncrypted\": \"false\",\r\n    \"isAdmin\" : false\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080{{route}}",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}"
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Add user K.Nowak as admin",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"email\": \"kamil.nowak@gmail.com\",\r\n    \"password\": \"Knowak\",\r\n    \"isPasswordEncrypted\": \"false\",\r\n    \"isAdmin\" : true\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080{{route}}",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}"
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Add user A.Nowak",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"email\": \"adam.nowak@gmail.com\",\r\n    \"password\": \"Anowak\",\r\n    \"isPasswordEncrypted\": \"false\",\r\n    \"isAdmin\" : false\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080{{route}}",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}"
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Add user A.Nowak as admin",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"email\": \"adam.nowak@gmail.com\",\r\n    \"password\": \"Anowak\",\r\n    \"isPasswordEncrypted\": \"false\",\r\n    \"isAdmin\" : true\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080{{route}}",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}"
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Add user  D.Kowalski",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"email\": \"dariusz.kowalski@gmail.com\",\r\n    \"password\": \"Dkowalski\",\r\n    \"isPasswordEncrypted\": \"false\",\r\n    \"isAdmin\" : false\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080{{route}}",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}"
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Add user  D.Kowalski as admin",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"email\": \"dariusz.kowalski@gmail.com\",\r\n    \"password\": \"Dkowalski\",\r\n    \"isPasswordEncrypted\": \"false\",\r\n    \"isAdmin\" : true\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080{{route}}",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}"
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Add user P.Kowal",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"email\": \"piotr.kowal@gmail.com\",\r\n    \"password\": \"Pkowal\",\r\n    \"isPasswordEncrypted\": \"false\",\r\n    \"isAdmin\" : false\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080{{route}}",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}"
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Add user P.Kowal as admin",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"email\": \"piotr.kowal@gmail.com\",\r\n    \"password\": \"Pkowal\",\r\n    \"isPasswordEncrypted\": \"false\",\r\n    \"isAdmin\" : true\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080{{route}}",
+											"host": [
+												"localhost"
+											],
+											"port": "8080{{route}}"
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.collectionVariables.set(\"route\", \"/users\")"
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Data",
+					"item": [
+						{
+							"name": "Save data",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080{{route}}/save",
+									"host": [
+										"localhost"
+									],
+									"port": "8080{{route}}",
+									"path": [
+										"save"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Load data",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"filename\": \"data_dump_2023_11_23-16_32_01.json\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080{{route}}/load",
+									"host": [
+										"localhost"
+									],
+									"port": "8080{{route}}",
+									"path": [
+										"load"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.collectionVariables.set(\"route\", \"/data\")"
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "token",
+			"value": ""
+		},
+		{
+			"key": "route",
+			"value": ""
+		}
+	]
+}

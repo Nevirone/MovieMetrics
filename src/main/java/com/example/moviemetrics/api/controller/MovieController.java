@@ -15,7 +15,7 @@ import com.example.moviemetrics.api.model.Movie;
 import com.example.moviemetrics.api.service.MovieService;
 
 @RestController
-@RequestMapping("/movies")
+@RequestMapping("/api/movies")
 public class MovieController {
     private final MovieService movieService;
 

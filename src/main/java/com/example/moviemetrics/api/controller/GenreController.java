@@ -15,7 +15,7 @@ import com.example.moviemetrics.api.model.Genre;
 import com.example.moviemetrics.api.service.GenreService;
 
 @RestController
-@RequestMapping("/genres")
+@RequestMapping("/api/genres")
 public class GenreController {
     final private GenreService genreService;
 
