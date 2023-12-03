@@ -4,8 +4,45 @@ info:
   version: v0
 servers:
   - url: http://localhost:8080
+    description: Generated server url
 paths:
-  /users:
+  /auth/register:
+    post:
+      tags:
+        - authentication-controller
+      operationId: registerUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegistrationDto'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+  /auth/login:
+    post:
+      tags:
+        - authentication-controller
+      operationId: loginUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthenticationDto'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+  /api/users:
     get:
       security:
         - bearerAuth: []
@@ -21,7 +58,7 @@ paths:
                 type: object
     post:
       security:
-          - bearerAuth: []
+        - bearerAuth: []
       tags:
         - user-controller
       operationId: createUser
@@ -29,7 +66,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserRequest'
+              $ref: '#/components/schemas/UserDto'
         required: true
       responses:
         '200':
@@ -38,7 +75,7 @@ paths:
             '*/*':
               schema:
                 type: object
-  /movies:
+  /api/movies:
     get:
       security:
         - bearerAuth: []
@@ -62,7 +99,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/MovieRequest'
+              $ref: '#/components/schemas/MovieDto'
         required: true
       responses:
         '200':
@@ -71,7 +108,7 @@ paths:
             '*/*':
               schema:
                 type: object
-  /genres:
+  /api/genres:
     get:
       security:
         - bearerAuth: []
@@ -95,7 +132,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/GenreRequest'
+              $ref: '#/components/schemas/GenreDto'
         required: true
       responses:
         '200':
@@ -104,43 +141,7 @@ paths:
             '*/*':
               schema:
                 type: object
-  /auth/register:
-    post:
-      tags:
-        - authentication-controller
-      operationId: registerUser
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/RegisterRequest'
-        required: true
-      responses:
-        '200':
-          description: OK
-          content:
-            '*/*':
-              schema:
-                type: object
-  /auth/login:
-    post:
-      tags:
-        - authentication-controller
-      operationId: loginUser
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/AuthenticationRequest'
-        required: true
-      responses:
-        '200':
-          description: OK
-          content:
-            '*/*':
-              schema:
-                type: object
-  /users/{id}:
+  /api/users/{id}:
     get:
       security:
         - bearerAuth: []
@@ -198,7 +199,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserRequest'
+              $ref: '#/components/schemas/UserDto'
         required: true
       responses:
         '200':
@@ -207,7 +208,7 @@ paths:
             '*/*':
               schema:
                 type: object
-  /movies/{id}:
+  /api/movies/{id}:
     get:
       security:
         - bearerAuth: []
@@ -265,7 +266,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/MovieRequest'
+              $ref: '#/components/schemas/MovieDto'
         required: true
       responses:
         '200':
@@ -274,7 +275,7 @@ paths:
             '*/*':
               schema:
                 type: object
-  /genres/{id}:
+  /api/genres/{id}:
     get:
       security:
         - bearerAuth: []
@@ -332,8 +333,54 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/GenreRequest'
+              $ref: '#/components/schemas/GenreDto'
         required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+  /docs:
+    get:
+      tags:
+        - redirection-controller
+      operationId: redirectToSwaggerUI
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/RedirectView'
+  /data/save:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - data-controller
+      operationId: getDatabaseData
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+  /data/load:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - data-controller
+      operationId: loadDatabaseData
+      parameters:
+        - name: filenameDto
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/FilenameDto'
       responses:
         '200':
           description: OK
@@ -346,9 +393,9 @@ components:
     bearerAuth:            # arbitrary name for the security scheme
       type: http
       scheme: bearer
-      bearerFormat: JWT  
+      bearerFormat: JWT
   schemas:
-    UserRequest:
+    RegistrationDto:
       required:
         - email
         - password
@@ -360,10 +407,35 @@ components:
           maxLength: 2147483647
           minLength: 6
           type: string
-    MovieRequest:
+    AuthenticationDto:
+      required:
+        - email
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+    UserDto:
+      required:
+        - email
+        - password
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          maxLength: 2147483647
+          minLength: 6
+          type: string
+        admin:
+          type: boolean
+        passwordEncrypted:
+          type: boolean
+    MovieDto:
       required:
         - description
-        - genreIds
+        - genres
         - popularity
         - title
         - voteAverage
@@ -378,6 +450,11 @@ components:
           maxLength: 2147483647
           minLength: 10
           type: string
+        genres:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
         popularity:
           type: number
           format: double
@@ -387,13 +464,7 @@ components:
         voteCount:
           type: integer
           format: int32
-        genreIds:
-          uniqueItems: true
-          type: array
-          items:
-            type: integer
-            format: int64
-    GenreRequest:
+    GenreDto:
       required:
         - name
       type: object
@@ -402,24 +473,579 @@ components:
           maxLength: 2147483647
           minLength: 5
           type: string
-    RegisterRequest:
-      required:
-        - email
-        - password
+    ApplicationContext:
       type: object
       properties:
-        email:
+        parent:
+          $ref: '#/components/schemas/ApplicationContext'
+        id:
           type: string
-        password:
-          maxLength: 2147483647
-          minLength: 6
+        displayName:
           type: string
-    AuthenticationRequest:
-      required:
-        - email
+        applicationName:
+          type: string
+        startupDate:
+          type: integer
+          format: int64
+        autowireCapableBeanFactory:
+          $ref: '#/components/schemas/AutowireCapableBeanFactory'
+        environment:
+          $ref: '#/components/schemas/Environment'
+        beanDefinitionNames:
+          type: array
+          items:
+            type: string
+        beanDefinitionCount:
+          type: integer
+          format: int32
+        parentBeanFactory:
+          $ref: '#/components/schemas/BeanFactory'
+        classLoader:
+          type: object
+          properties:
+            name:
+              type: string
+            registeredAsParallelCapable:
+              type: boolean
+            parent:
+              type: object
+              properties:
+                name:
+                  type: string
+                registeredAsParallelCapable:
+                  type: boolean
+                unnamedModule:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    classLoader:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        registeredAsParallelCapable:
+                          type: boolean
+                        definedPackages:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              name:
+                                type: string
+                              annotations:
+                                type: array
+                                items:
+                                  type: object
+                              declaredAnnotations:
+                                type: array
+                                items:
+                                  type: object
+                              sealed:
+                                type: boolean
+                              specificationTitle:
+                                type: string
+                              specificationVersion:
+                                type: string
+                              specificationVendor:
+                                type: string
+                              implementationTitle:
+                                type: string
+                              implementationVersion:
+                                type: string
+                              implementationVendor:
+                                type: string
+                        defaultAssertionStatus:
+                          type: boolean
+                          writeOnly: true
+                    descriptor:
+                      type: object
+                      properties:
+                        open:
+                          type: boolean
+                        automatic:
+                          type: boolean
+                    named:
+                      type: boolean
+                    annotations:
+                      type: array
+                      items:
+                        type: object
+                    declaredAnnotations:
+                      type: array
+                      items:
+                        type: object
+                    packages:
+                      uniqueItems: true
+                      type: array
+                      items:
+                        type: string
+                    nativeAccessEnabled:
+                      type: boolean
+                    layer:
+                      type: object
+                definedPackages:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      annotations:
+                        type: array
+                        items:
+                          type: object
+                      declaredAnnotations:
+                        type: array
+                        items:
+                          type: object
+                      sealed:
+                        type: boolean
+                      specificationTitle:
+                        type: string
+                      specificationVersion:
+                        type: string
+                      specificationVendor:
+                        type: string
+                      implementationTitle:
+                        type: string
+                      implementationVersion:
+                        type: string
+                      implementationVendor:
+                        type: string
+                defaultAssertionStatus:
+                  type: boolean
+                  writeOnly: true
+            unnamedModule:
+              type: object
+              properties:
+                name:
+                  type: string
+                classLoader:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    registeredAsParallelCapable:
+                      type: boolean
+                    definedPackages:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          annotations:
+                            type: array
+                            items:
+                              type: object
+                          declaredAnnotations:
+                            type: array
+                            items:
+                              type: object
+                          sealed:
+                            type: boolean
+                          specificationTitle:
+                            type: string
+                          specificationVersion:
+                            type: string
+                          specificationVendor:
+                            type: string
+                          implementationTitle:
+                            type: string
+                          implementationVersion:
+                            type: string
+                          implementationVendor:
+                            type: string
+                    defaultAssertionStatus:
+                      type: boolean
+                      writeOnly: true
+                descriptor:
+                  type: object
+                  properties:
+                    open:
+                      type: boolean
+                    automatic:
+                      type: boolean
+                named:
+                  type: boolean
+                annotations:
+                  type: array
+                  items:
+                    type: object
+                declaredAnnotations:
+                  type: array
+                  items:
+                    type: object
+                packages:
+                  uniqueItems: true
+                  type: array
+                  items:
+                    type: string
+                nativeAccessEnabled:
+                  type: boolean
+                layer:
+                  type: object
+            definedPackages:
+              type: array
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  annotations:
+                    type: array
+                    items:
+                      type: object
+                  declaredAnnotations:
+                    type: array
+                    items:
+                      type: object
+                  sealed:
+                    type: boolean
+                  specificationTitle:
+                    type: string
+                  specificationVersion:
+                    type: string
+                  specificationVendor:
+                    type: string
+                  implementationTitle:
+                    type: string
+                  implementationVersion:
+                    type: string
+                  implementationVendor:
+                    type: string
+            defaultAssertionStatus:
+              type: boolean
+              writeOnly: true
+    AutowireCapableBeanFactory:
+      type: object
+    BeanFactory:
+      type: object
+    Environment:
       type: object
       properties:
-        email:
+        defaultProfiles:
+          type: array
+          items:
+            type: string
+        activeProfiles:
+          type: array
+          items:
+            type: string
+    FilterRegistration:
+      type: object
+      properties:
+        servletNameMappings:
+          type: array
+          items:
+            type: string
+        urlPatternMappings:
+          type: array
+          items:
+            type: string
+        name:
           type: string
-        password:
+        className:
+          type: string
+        initParameters:
+          type: object
+          additionalProperties:
+            type: string
+    HttpStatusCode:
+      type: object
+      properties:
+        error:
+          type: boolean
+        is5xxServerError:
+          type: boolean
+        is4xxClientError:
+          type: boolean
+        is1xxInformational:
+          type: boolean
+        is2xxSuccessful:
+          type: boolean
+        is3xxRedirection:
+          type: boolean
+    JspConfigDescriptor:
+      type: object
+      properties:
+        taglibs:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaglibDescriptor'
+        jspPropertyGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/JspPropertyGroupDescriptor'
+    JspPropertyGroupDescriptor:
+      type: object
+      properties:
+        buffer:
+          type: string
+        defaultContentType:
+          type: string
+        urlPatterns:
+          type: array
+          items:
+            type: string
+        isXml:
+          type: string
+        errorOnELNotFound:
+          type: string
+        scriptingInvalid:
+          type: string
+        deferredSyntaxAllowedAsLiteral:
+          type: string
+        errorOnUndeclaredNamespace:
+          type: string
+        trimDirectiveWhitespaces:
+          type: string
+        pageEncoding:
+          type: string
+        includeCodas:
+          type: array
+          items:
+            type: string
+        elIgnored:
+          type: string
+        includePreludes:
+          type: array
+          items:
+            type: string
+    RedirectView:
+      type: object
+      properties:
+        applicationContext:
+          $ref: '#/components/schemas/ApplicationContext'
+        servletContext:
+          $ref: '#/components/schemas/ServletContext'
+        contentType:
+          type: string
+        requestContextAttribute:
+          type: string
+        staticAttributes:
+          type: object
+          additionalProperties:
+            type: object
+        exposePathVariables:
+          type: boolean
+        exposeContextBeansAsAttributes:
+          type: boolean
+          writeOnly: true
+        exposedContextBeanNames:
+          type: array
+          writeOnly: true
+          items:
+            type: string
+        beanName:
+          type: string
+        url:
+          type: string
+        contextRelative:
+          type: boolean
+          writeOnly: true
+        http10Compatible:
+          type: boolean
+          writeOnly: true
+        exposeModelAttributes:
+          type: boolean
+          writeOnly: true
+        encodingScheme:
+          type: string
+          writeOnly: true
+        statusCode:
+          $ref: '#/components/schemas/HttpStatusCode'
+        expandUriTemplateVariables:
+          type: boolean
+          writeOnly: true
+        propagateQueryParams:
+          type: boolean
+          writeOnly: true
+        hosts:
+          type: array
+          items:
+            type: string
+        redirectView:
+          type: boolean
+        propagateQueryProperties:
+          type: boolean
+        attributesMap:
+          type: object
+          additionalProperties:
+            type: object
+        attributes:
+          type: object
+          additionalProperties:
+            type: string
+          writeOnly: true
+        attributesCSV:
+          type: string
+          writeOnly: true
+    ServletContext:
+      type: object
+      properties:
+        classLoader:
+          type: object
+          properties:
+            name:
+              type: string
+            registeredAsParallelCapable:
+              type: boolean
+            definedPackages:
+              type: array
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  annotations:
+                    type: array
+                    items:
+                      type: object
+                  declaredAnnotations:
+                    type: array
+                    items:
+                      type: object
+                  sealed:
+                    type: boolean
+                  specificationTitle:
+                    type: string
+                  specificationVersion:
+                    type: string
+                  specificationVendor:
+                    type: string
+                  implementationTitle:
+                    type: string
+                  implementationVersion:
+                    type: string
+                  implementationVendor:
+                    type: string
+            defaultAssertionStatus:
+              type: boolean
+              writeOnly: true
+        majorVersion:
+          type: integer
+          format: int32
+        minorVersion:
+          type: integer
+          format: int32
+        sessionTimeout:
+          type: integer
+          format: int32
+        serverInfo:
+          type: string
+        initParameterNames:
+          type: object
+        contextPath:
+          type: string
+        sessionTrackingModes:
+          uniqueItems: true
+          type: array
+          writeOnly: true
+          items:
+            type: string
+            enum:
+              - COOKIE
+              - URL
+              - SSL
+        effectiveMinorVersion:
+          type: integer
+          format: int32
+        filterRegistrations:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/FilterRegistration'
+        effectiveMajorVersion:
+          type: integer
+          format: int32
+        jspConfigDescriptor:
+          $ref: '#/components/schemas/JspConfigDescriptor'
+        virtualServerName:
+          type: string
+        servletContextName:
+          type: string
+        sessionCookieConfig:
+          $ref: '#/components/schemas/SessionCookieConfig'
+        responseCharacterEncoding:
+          type: string
+        defaultSessionTrackingModes:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+            enum:
+              - COOKIE
+              - URL
+              - SSL
+        requestCharacterEncoding:
+          type: string
+        effectiveSessionTrackingModes:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+            enum:
+              - COOKIE
+              - URL
+              - SSL
+        servletRegistrations:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ServletRegistration'
+        attributeNames:
+          type: object
+    ServletRegistration:
+      type: object
+      properties:
+        mappings:
+          type: array
+          items:
+            type: string
+        runAsRole:
+          type: string
+        name:
+          type: string
+        className:
+          type: string
+        initParameters:
+          type: object
+          additionalProperties:
+            type: string
+    SessionCookieConfig:
+      type: object
+      properties:
+        name:
+          type: string
+        path:
+          type: string
+        attributes:
+          type: object
+          additionalProperties:
+            type: string
+        comment:
+          type: string
+          deprecated: true
+        secure:
+          type: boolean
+        maxAge:
+          type: integer
+          format: int32
+        httpOnly:
+          type: boolean
+        domain:
+          type: string
+    TaglibDescriptor:
+      type: object
+      properties:
+        taglibLocation:
+          type: string
+        taglibURI:
+          type: string
+    FilenameDto:
+      required:
+        - filename
+      type: object
+      properties:
+        filename:
           type: string
