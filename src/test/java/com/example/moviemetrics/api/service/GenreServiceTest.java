@@ -1,21 +1,16 @@
 package com.example.moviemetrics.api.service;
 
 import com.example.moviemetrics.api.DTO.GenreDto;
-import com.example.moviemetrics.api.DTO.UserDto;
 import com.example.moviemetrics.api.exception.DataConflictException;
 import com.example.moviemetrics.api.exception.NotFoundException;
-import com.example.moviemetrics.api.model.ERole;
 import com.example.moviemetrics.api.model.Genre;
-import com.example.moviemetrics.api.model.User;
 import com.example.moviemetrics.api.repository.IGenreRepository;
-import com.example.moviemetrics.api.repository.IUserRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
@@ -178,7 +173,7 @@ class GenreServiceTest {
     }
 
     @Test
-    void updatingGenreWillThrowWhenUserNotFound() {
+    void updatingGenreWillThrowWhenGenreNotFound() {
         // given
         Long id = 2L;
         GenreDto genreDto = GenreDto.builder().name("Action").build();

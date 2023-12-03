@@ -1,42 +1,36 @@
 package com.example.moviemetrics.api.service;
-import com.example.moviemetrics.api.DTO.GenreDto;
+
+import com.example.moviemetrics.api.DTO.MovieDto;
 import com.example.moviemetrics.api.exception.DataConflictException;
 import com.example.moviemetrics.api.exception.NotFoundException;
-import com.example.moviemetrics.api.DTO.MovieDto;
 import com.example.moviemetrics.api.model.Genre;
+import com.example.moviemetrics.api.model.Movie;
+import com.example.moviemetrics.api.repository.IGenreRepository;
+import com.example.moviemetrics.api.repository.IMovieRepository;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
-import com.example.moviemetrics.api.model.Movie;
-
-import com.example.moviemetrics.api.repository.IMovieRepository;
-
 @Service
+@RequiredArgsConstructor
 public class MovieService {
     private final IMovieRepository movieRepository;
-    private final GenreService genreService;
-
-    @Autowired
-    public MovieService(IMovieRepository movieRepository, GenreService genreService) {
-        this.movieRepository = movieRepository;
-        this.genreService = genreService;
-    }
+    private final IGenreRepository genreRepository;
 
     private Movie getMovieFromMovieDto(MovieDto movieDto) {
         Set<Genre> genres = new HashSet<>();
 
         for(String genreName : movieDto.getGenres()) {
-            Genre genre;
-            try {
-                genre = genreService.getGenreByName(genreName);
-            } catch (NotFoundException ex) {
-                GenreDto dto = GenreDto.builder().name(genreName).build();
-                genre = genreService.createGenre(dto);
+            Optional<Genre> genre = genreRepository.findByName(genreName);
+
+            if (genre.isEmpty()) {
+                Genre created = genreRepository.save(Genre.builder().name(genreName).build());
+                genres.add(created);
+            } else {
+                genres.add(genre.get());
             }
-            genres.add(genre);
         }
 
         return Movie
@@ -49,19 +43,20 @@ public class MovieService {
                 .voteCount(movieDto.getVoteCount())
                 .build();
     }
+
     public Movie createMovie(MovieDto movieDto) throws DataConflictException {
         if (movieRepository.findByTitle(movieDto.getTitle()).isPresent())
-            throw new DataConflictException("Movie title taken");
+            throw new DataConflictException("Title " + movieDto.getTitle() + " is taken");
 
         return movieRepository.save(getMovieFromMovieDto(movieDto));
     }
 
     public Movie getMovieById(Long id) throws NotFoundException {
-        return movieRepository.findById(id).orElseThrow(() -> new NotFoundException(("Movie not found")));
+        return movieRepository.findById(id).orElseThrow(() -> new NotFoundException(("Movie with id " + id + " not found")));
     }
 
     public Movie getMovieByTitle(String title) throws NotFoundException{
-        return movieRepository.findByTitle(title).orElseThrow(() -> new NotFoundException(("Movie not found")));
+        return movieRepository.findByTitle(title).orElseThrow(() -> new NotFoundException(("Movie with title " + title + " not found")));
     }
     public List<Movie> getAllMovies() {
         return movieRepository.findAll();
@@ -69,11 +64,11 @@ public class MovieService {
 
     public Movie updateMovie(Long id, MovieDto movieDto) throws NotFoundException, DataConflictException{
         if(movieRepository.findById(id).isEmpty())
-            throw new NotFoundException("Movie not found");
+            throw new NotFoundException("Movie with id " + id + " not found");
 
         Optional<Movie> titleExists = movieRepository.findByTitle(movieDto.getTitle());
         if (titleExists.isPresent() && !Objects.equals(titleExists.get().getId(), id))
-            throw new DataConflictException("Movie title taken");
+            throw new DataConflictException("Title " + movieDto.getTitle() + " is taken");
 
         Movie movie = getMovieFromMovieDto(movieDto);
         movie.setId(id);
@@ -85,7 +80,7 @@ public class MovieService {
     public Movie deleteMovie(Long id) throws NotFoundException {
         Optional<Movie> movie = movieRepository.findById(id);
         if(movie.isEmpty())
-            throw new NotFoundException("Movie not found");
+            throw new NotFoundException("Movie with id " + id + " not found");
 
 
         movieRepository.deleteById(id);
