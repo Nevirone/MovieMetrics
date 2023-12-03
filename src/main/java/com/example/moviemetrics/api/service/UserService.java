@@ -30,9 +30,9 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User createUser(UserDto userDto) {
+    public User createUser(UserDto userDto) throws DataConflictException {
         if(userRepository.findByEmail(userDto.getEmail()).isPresent())
-            throw new DataConflictException("User email taken");
+            throw new DataConflictException("Email " + userDto.getEmail() + " is taken");
 
         User user = User
                 .builder()
@@ -44,26 +44,12 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public List<User> createUsers(List<UserDto> userDtoList) throws DataConflictException {
-        List<User> users = new ArrayList<>();
-
-        System.out.println("Loading users:");
-        for(UserDto userDto : userDtoList)
-            try {
-                users.add(createUser(userDto));
-            } catch (DataConflictException ex) {
-                System.out.println("Email exists: " + userDto.getEmail());
-            }
-
-        return users;
-    }
-
     public User getUserById(Long id) {
-        return userRepository.findById(id).orElseThrow(() -> new NotFoundException("User not found"));
+        return userRepository.findById(id).orElseThrow(() -> new NotFoundException("User with id " + id + "not found"));
     }
 
     public User getUserByEmail(String email) {
-        return userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("User not found"));
+        return userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("User with email " + email + "not found"));
     }
     public List<User> getAllUsers() {
         return userRepository.findAll();
@@ -72,12 +58,12 @@ public class UserService {
     public User updateUser(Long id, UserDto userDto) {
         Optional<User> userFound = userRepository.findById(id);
         if(userFound.isEmpty())
-            throw new NotFoundException("User not found");
+            throw new NotFoundException("User with id " + id + "not found");
 
         Optional<User> emailExists = userRepository.findByEmail(userDto.getEmail());
 
         if (emailExists.isPresent() && !Objects.equals(emailExists.get().getId(), id))
-            throw new DataConflictException("User email taken");
+            throw new DataConflictException("Email " + userDto.getEmail() + " is taken");
 
         User user = User
                 .builder()
@@ -94,7 +80,7 @@ public class UserService {
     public User deleteUser(Long id) {
         Optional<User> user = userRepository.findById(id);
         if(user.isEmpty())
-            throw new NotFoundException("User not found");
+            throw new NotFoundException("User with id " + id + "not found");
 
         userRepository.deleteById(id);
         return user.get();

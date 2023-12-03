@@ -1,7 +1,7 @@
 package com.example.moviemetrics.api.service;
 
-import com.example.moviemetrics.api.DTO.DataStorageDto;
-import com.example.moviemetrics.api.DTO.FilenameDto;
+import com.example.moviemetrics.api.DTO.*;
+import com.example.moviemetrics.api.exception.DataConflictException;
 import com.example.moviemetrics.api.model.Genre;
 import com.example.moviemetrics.api.model.Movie;
 import com.example.moviemetrics.api.model.User;
@@ -51,13 +51,39 @@ public class DataService {
     }
 
     public void loadDatabaseData(String filename) throws IOException {
-            Path jsonFilePath = Path.of(fileDirectory, filename);
-            String jsonValue = new String(Files.readAllBytes(jsonFilePath));
+        Path jsonFilePath = Path.of(fileDirectory, filename);
+        String jsonValue = new String(Files.readAllBytes(jsonFilePath));
 
-            DataStorageDto dataStorageDto = DataStorageDto.readFromJsonString(jsonValue);
+        DataStorageDto dataStorageDto = DataStorageDto.readFromJsonString(jsonValue);
 
-            userService.createUsers(dataStorageDto.getUserDtos());
-            genreService.createGenres(dataStorageDto.getGenreDtos());
-            movieService.createMovies(dataStorageDto.getMovieDtos());
+        System.out.println("Loading users...");
+        for(UserDto userDto : dataStorageDto.getUserDtos()){
+            try {
+                userService.createUser(userDto);
+            } catch (DataConflictException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+        System.out.println("Users loaded");
+
+        System.out.println("Loading genres...");
+        for(GenreDto genreDto : dataStorageDto.getGenreDtos()){
+            try {
+                genreService.createGenre(genreDto);
+            } catch (DataConflictException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+        System.out.println("Genres loaded");
+
+        System.out.println("Loading movies...");
+        for(MovieDto movieDto : dataStorageDto.getMovieDtos()){
+            try {
+                movieService.createMovie(movieDto);
+            } catch (DataConflictException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+        System.out.println("Movies loaded");
     }
 }

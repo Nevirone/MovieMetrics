@@ -28,7 +28,7 @@ public class GenreService {
 
     public Genre createGenre(GenreDto genreDto) throws DataConflictException {
         if (genreRepository.findByName(genreDto.getName()).isPresent()) {
-            throw new DataConflictException("Genre name taken");
+            throw new DataConflictException("Name " + genreDto.getName() + "is taken");
         }
 
         Genre genre = Genre
@@ -39,27 +39,12 @@ public class GenreService {
         return genreRepository.save(genre);
     }
 
-
-    public List<Genre> createGenres(List<GenreDto> genreDtoList) throws DataConflictException {
-        List<Genre> genres = new ArrayList<>();
-
-        System.out.println("Loading genres:");
-        for(GenreDto genreDto : genreDtoList)
-            try {
-                genres.add(createGenre(genreDto));
-            } catch (DataConflictException ex) {
-                System.out.println("Name exists: " + genreDto.getName());
-            }
-
-        return genres;
-    }
-
     public Genre getGenreById(Long id) throws NotFoundException {
-        return genreRepository.findById(id).orElseThrow(() -> new NotFoundException("Genre not found"));
+        return genreRepository.findById(id).orElseThrow(() -> new NotFoundException("Genre with id " + id + " not found"));
     }
 
     public Genre getGenreByName(String name) throws NotFoundException {
-        return genreRepository.findByName(name).orElseThrow(() -> new NotFoundException("Genre not found"));
+        return genreRepository.findByName(name).orElseThrow(() -> new NotFoundException("Genre with name " + name + " not found"));
     }
 
     public List<Genre> getAllGenres() {
@@ -68,11 +53,11 @@ public class GenreService {
 
     public Genre updateGenre(Long id, GenreDto genreDto) throws NotFoundException, DataConflictException {
         if(genreRepository.findById(id).isEmpty())
-            throw new NotFoundException("Genre not found");
+            throw new NotFoundException("Genre with id " + id + " not found");
 
         Optional<Genre> nameExists = genreRepository.findByName(genreDto.getName());
         if (nameExists.isPresent() && !Objects.equals(nameExists.get().getId(), id))
-            throw new DataConflictException("Genre name taken");
+            throw new DataConflictException("Name " + genreDto.getName() + "is taken");
 
         Genre genre = Genre
                 .builder()
@@ -87,7 +72,7 @@ public class GenreService {
     public Genre deleteGenre(Long id) throws NotFoundException {
         Optional<Genre> genre = genreRepository.findById(id);
         if(genre.isEmpty())
-            throw new NotFoundException("Genre not found");
+            throw new NotFoundException("Genre with id " + id + " not found");
 
 
         genreRepository.deleteById(id);

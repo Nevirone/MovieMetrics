@@ -56,20 +56,6 @@ public class MovieService {
         return movieRepository.save(getMovieFromMovieDto(movieDto));
     }
 
-    public List<Movie> createMovies(List<MovieDto> movieDtoList) throws DataConflictException {
-        List<Movie> movies = new ArrayList<>();
-
-        System.out.println("Loading movies:");
-        for(MovieDto movieDto : movieDtoList)
-            try {
-                movies.add(createMovie(movieDto));
-            } catch (DataConflictException ex) {
-                System.out.println("Title exists: " + movieDto.getTitle());
-            }
-
-        return movies;
-    }
-
     public Movie getMovieById(Long id) throws NotFoundException {
         return movieRepository.findById(id).orElseThrow(() -> new NotFoundException(("Movie not found")));
     }
