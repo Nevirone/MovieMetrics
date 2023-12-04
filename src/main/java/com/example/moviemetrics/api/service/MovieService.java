@@ -77,13 +77,11 @@ public class MovieService {
     }
 
     @Transactional
-    public Movie deleteMovie(Long id) throws NotFoundException {
+    public void deleteMovie(Long id) throws NotFoundException {
         Optional<Movie> movie = movieRepository.findById(id);
         if(movie.isEmpty())
             throw new NotFoundException("Movie with id " + id + " not found");
 
-
         movieRepository.deleteById(id);
-        return movie.get();
     }
 }

@@ -2,10 +2,14 @@ package com.example.moviemetrics.api.model;
 
 import com.example.moviemetrics.api.service.GenreService;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.Hibernate;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -39,17 +43,4 @@ public class Movie {
             inverseJoinColumns = @JoinColumn(name = "genre_id")
     )
     private Set<Genre> genres = new HashSet<>();
-
-    public void setGenresByIds(Set<Long> genreIds, GenreService genreService) {
-        if(genreIds == null) return;
-
-        Set<Genre> genres = new HashSet<>();
-
-        for (Long genreId : genreIds) {
-            Genre genre = genreService.getGenreById(genreId);
-            genres.add(genre);
-        }
-
-        this.genres = genres;
-    }
 }

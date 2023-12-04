@@ -1,36 +1,25 @@
 package com.example.moviemetrics.api.controller;
 
-import com.example.moviemetrics.api.DTO.DataStorageDto;
 import com.example.moviemetrics.api.DTO.FilenameDto;
-import com.example.moviemetrics.api.exception.DataConflictException;
-import com.example.moviemetrics.api.exception.NotFoundException;
-import com.example.moviemetrics.api.model.Genre;
-import com.example.moviemetrics.api.model.Movie;
-import com.example.moviemetrics.api.model.User;
 import com.example.moviemetrics.api.service.DataService;
 import com.example.moviemetrics.api.service.GenreService;
 import com.example.moviemetrics.api.service.MovieService;
 import com.example.moviemetrics.api.service.UserService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.Serializable;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor

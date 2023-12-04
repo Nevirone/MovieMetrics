@@ -2,6 +2,7 @@ package com.example.moviemetrics.api.DTO;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
@@ -18,9 +19,9 @@ public class UserDto {
     @Size(min = 6, message = "At least 6 characters")
     private String password;
 
-    @NotBlank(message = "IsPasswordEncrypted is required")
+    @NotNull(message = "IsPasswordEncrypted is required")
     private boolean isPasswordEncrypted;
 
-    @NotBlank(message = "IsAdmin is required")
+    @NotNull(message = "IsAdmin is required")
     private boolean isAdmin;
 }
