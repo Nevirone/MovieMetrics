@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "492ac050-4660-41cb-a74b-ba4d3b41ca93",
+		"_postman_id": "7bb5caef-fd00-4851-8f73-219b8143ab9a",
 		"name": "Movie Metrics",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "31364811"
@@ -398,6 +398,446 @@
 						{
 							"name": "Get",
 							"item": [
+								{
+									"name": "Filtered",
+									"item": [
+										{
+											"name": "voteCount",
+											"item": [
+												{
+													"name": "voteCount >= 500",
+													"request": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "localhost:8080{{route}}?voteCountFrom=500",
+															"host": [
+																"localhost"
+															],
+															"port": "8080{{route}}",
+															"query": [
+																{
+																	"key": "voteCountFrom",
+																	"value": "500"
+																}
+															]
+														}
+													},
+													"response": []
+												},
+												{
+													"name": "voteCount <= 1300",
+													"request": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "localhost:8080{{route}}",
+															"host": [
+																"localhost"
+															],
+															"port": "8080{{route}}"
+														}
+													},
+													"response": []
+												},
+												{
+													"name": "800 <= voteCount <= 1200",
+													"request": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "localhost:8080{{route}}?voteCountFrom=800&voteCountTo=1200",
+															"host": [
+																"localhost"
+															],
+															"port": "8080{{route}}",
+															"query": [
+																{
+																	"key": "voteCountFrom",
+																	"value": "800"
+																},
+																{
+																	"key": "voteCountTo",
+																	"value": "1200"
+																}
+															]
+														}
+													},
+													"response": []
+												}
+											]
+										},
+										{
+											"name": "voteAverage",
+											"item": [
+												{
+													"name": "voteAverage >= 5.5",
+													"request": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "localhost:8080{{route}}?voteAverageFrom=5.5",
+															"host": [
+																"localhost"
+															],
+															"port": "8080{{route}}",
+															"query": [
+																{
+																	"key": "voteAverageFrom",
+																	"value": "5.5"
+																}
+															]
+														}
+													},
+													"response": []
+												},
+												{
+													"name": "voteAverage <= 9",
+													"request": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "localhost:8080{{route}}?voteAverageTo=9",
+															"host": [
+																"localhost"
+															],
+															"port": "8080{{route}}",
+															"query": [
+																{
+																	"key": "voteAverageTo",
+																	"value": "9"
+																}
+															]
+														}
+													},
+													"response": []
+												},
+												{
+													"name": "7 <= voteAverage <= 8.5",
+													"request": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "localhost:8080{{route}}?voteAverageFrom=7&voteAverageTo=8.5",
+															"host": [
+																"localhost"
+															],
+															"port": "8080{{route}}",
+															"query": [
+																{
+																	"key": "voteAverageFrom",
+																	"value": "7"
+																},
+																{
+																	"key": "voteAverageTo",
+																	"value": "8.5"
+																}
+															]
+														}
+													},
+													"response": []
+												}
+											]
+										},
+										{
+											"name": "popularity",
+											"item": [
+												{
+													"name": "popularity >= 7.5",
+													"request": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "localhost:8080{{route}}?popularityFrom=7.5",
+															"host": [
+																"localhost"
+															],
+															"port": "8080{{route}}",
+															"query": [
+																{
+																	"key": "popularityFrom",
+																	"value": "7.5"
+																}
+															]
+														}
+													},
+													"response": []
+												},
+												{
+													"name": "popularity <= 7",
+													"request": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "localhost:8080{{route}}?popularityTo=7",
+															"host": [
+																"localhost"
+															],
+															"port": "8080{{route}}",
+															"query": [
+																{
+																	"key": "popularityTo",
+																	"value": "7"
+																}
+															]
+														}
+													},
+													"response": []
+												},
+												{
+													"name": "6 <= popularity <= 8",
+													"request": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "localhost:8080{{route}}?popularityFrom=6&popularityTo=8",
+															"host": [
+																"localhost"
+															],
+															"port": "8080{{route}}",
+															"query": [
+																{
+																	"key": "popularityFrom",
+																	"value": "6"
+																},
+																{
+																	"key": "popularityTo",
+																	"value": "8"
+																}
+															]
+														}
+													},
+													"response": []
+												}
+											]
+										},
+										{
+											"name": "genres",
+											"item": [
+												{
+													"name": "genres: Action",
+													"request": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "localhost:8080{{route}}?genres=Action&asdasd=sad",
+															"host": [
+																"localhost"
+															],
+															"port": "8080{{route}}",
+															"query": [
+																{
+																	"key": "genres",
+																	"value": "Action"
+																},
+																{
+																	"key": "asdasd",
+																	"value": "sad"
+																}
+															]
+														}
+													},
+													"response": []
+												},
+												{
+													"name": "genres: Comedy, Horror",
+													"request": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "localhost:8080{{route}}?genres=Comedy&genres=Horror",
+															"host": [
+																"localhost"
+															],
+															"port": "8080{{route}}",
+															"query": [
+																{
+																	"key": "genres",
+																	"value": "Comedy"
+																},
+																{
+																	"key": "genres",
+																	"value": "Horror"
+																}
+															]
+														}
+													},
+													"response": []
+												},
+												{
+													"name": "genres: Action, Drama",
+													"request": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "localhost:8080{{route}}?genres=Action&genres=Drama",
+															"host": [
+																"localhost"
+															],
+															"port": "8080{{route}}",
+															"query": [
+																{
+																	"key": "genres",
+																	"value": "Action"
+																},
+																{
+																	"key": "genres",
+																	"value": "Drama"
+																}
+															]
+														}
+													},
+													"response": []
+												}
+											]
+										}
+									]
+								},
+								{
+									"name": "Comparison",
+									"item": [
+										{
+											"name": "Compare movies 1 to 2",
+											"request": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "localhost:8080{{route}}/compare/1/2",
+													"host": [
+														"localhost"
+													],
+													"port": "8080{{route}}",
+													"path": [
+														"compare",
+														"1",
+														"2"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Compare movies 1 to 3",
+											"request": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "localhost:8080{{route}}/compare/1/3",
+													"host": [
+														"localhost"
+													],
+													"port": "8080{{route}}",
+													"path": [
+														"compare",
+														"1",
+														"3"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Compare movies 1 to 4",
+											"request": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "localhost:8080{{route}}/compare/1/4",
+													"host": [
+														"localhost"
+													],
+													"port": "8080{{route}}",
+													"path": [
+														"compare",
+														"1",
+														"4"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Compare movies 4 to 1",
+											"request": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "localhost:8080{{route}}/compare/4/1",
+													"host": [
+														"localhost"
+													],
+													"port": "8080{{route}}",
+													"path": [
+														"compare",
+														"4",
+														"1"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Compare movies 3 to 1",
+											"request": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "localhost:8080{{route}}/compare/2/1",
+													"host": [
+														"localhost"
+													],
+													"port": "8080{{route}}",
+													"path": [
+														"compare",
+														"2",
+														"1"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Compare movies 2 to 1",
+											"request": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "localhost:8080{{route}}/compare/2/1",
+													"host": [
+														"localhost"
+													],
+													"port": "8080{{route}}",
+													"path": [
+														"compare",
+														"2",
+														"1"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Compare movies 2 to 3",
+											"request": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "localhost:8080{{route}}/compare/2/3",
+													"host": [
+														"localhost"
+													],
+													"port": "8080{{route}}",
+													"path": [
+														"compare",
+														"2",
+														"3"
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
 								{
 									"name": "All movies",
 									"request": {
@@ -887,7 +1327,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"pm.collectionVariables.set(\"route\", \"/movies\")"
+									"pm.collectionVariables.set(\"route\", \"/api/movies\")"
 								]
 							}
 						},
@@ -1397,7 +1837,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"pm.collectionVariables.set(\"route\", \"/genres\")"
+									"pm.collectionVariables.set(\"route\", \"/api/genres\")"
 								]
 							}
 						},
@@ -1989,7 +2429,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"pm.collectionVariables.set(\"route\", \"/users\")"
+									"pm.collectionVariables.set(\"route\", \"/api/users\")"
 								]
 							}
 						},
@@ -2062,7 +2502,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"pm.collectionVariables.set(\"route\", \"/data\")"
+									"pm.collectionVariables.set(\"route\", \"/api/data\")"
 								]
 							}
 						},

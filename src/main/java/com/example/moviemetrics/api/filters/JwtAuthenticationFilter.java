@@ -74,17 +74,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        try {
         filterChain.doFilter(request, response);
-        } catch (Exception ex) {
-            if(ex.getMessage().contains("AccessDeniedException")) {
-                response.setStatus(403);
-                response.getWriter().write("Access denied");
-                return;
-            }
-            System.out.println(ex.getStackTrace());
-            System.out.println(ex.getMessage());
-            response.setStatus(500);
-        }
     }
 }

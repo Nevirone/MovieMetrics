@@ -1,5 +1,6 @@
 package com.example.moviemetrics.api.controller;
 
+import com.example.moviemetrics.api.DTO.MovieComparisonDto;
 import com.example.moviemetrics.api.DTO.MovieDto;
 import com.example.moviemetrics.api.model.Genre;
 import com.example.moviemetrics.api.model.Movie;
@@ -30,6 +31,23 @@ public class MovieController {
     public ResponseEntity<?> getMovieById(@PathVariable Long id) {
         Movie movie = movieService.getMovieById(id);
         return ResponseEntity.status(HttpStatus.OK).body(movie);
+    }
+
+    @GetMapping("/compare/{comparedId}/{comparedToId}")
+    public ResponseEntity<?> compareMovies(@PathVariable Long comparedId, @PathVariable Long comparedToId) {
+        Movie compared = movieService.getMovieById(comparedId);
+        Movie comparedTo = movieService.getMovieById(comparedToId);
+
+        MovieComparisonDto movieComparisonDto = MovieComparisonDto
+                .builder()
+                .comparedMovieTitle(compared.getTitle())
+                .comparedToMovieTitle(comparedTo.getTitle())
+                .voteCountDifference(comparedTo.getVoteCount() - compared.getVoteCount())
+                .voteAverageDifference(((comparedTo.getVoteAverage() * 100) - (compared.getVoteAverage() * 100)) /100)
+                .popularityDifference(((comparedTo.getPopularity() * 100) - (compared.getPopularity() * 100)) /100)
+                .build();
+
+        return ResponseEntity.ok(movieComparisonDto);
     }
 
     @GetMapping

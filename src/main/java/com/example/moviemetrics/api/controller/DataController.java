@@ -23,7 +23,7 @@ import java.util.Date;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/data")
+@RequestMapping("api/data")
 @PreAuthorize("hasAuthority('ADMIN')")
 public class DataController {
     private final UserService userService;
